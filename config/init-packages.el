@@ -21,6 +21,9 @@
     projectile
     key-chord
     seti-theme
+    auto-complete
+    etags
+    ac-etags
   ) "a list of packages to ensure are installed at launch.")
 
 

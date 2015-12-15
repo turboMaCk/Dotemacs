@@ -27,19 +27,27 @@
 (define-key evil-normal-state-map (kbd "C-p") 'helm-find-files)
 
 ;; Helm
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+
+(define-key helm-map (kbd "C-j") 'helm-next-line)
+(define-key helm-map (kbd "C-k") 'helm-previous-line)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 (global-set-key (kbd "C-x y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
+(define-key helm-map (kbd "C-j") 'helm-select-next)
+
 ;; Neotree
 (define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
 (add-hook 'neotree-mode-hook
     (lambda ()
-	(define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-	(define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
-	(define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)))
+      (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+      (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
+      (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)))
+
 
 ;; ESC to quit
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
