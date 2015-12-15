@@ -2,6 +2,8 @@
 (require 'evil-leader)
 (require 'key-chord)
 (require 'neotree)
+(require 'auto-complete)
+(require 'helm)
 
 ;; Chord mode move to exit normal mode
 (key-chord-mode 1)
@@ -44,10 +46,17 @@
 (define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
 (add-hook 'neotree-mode-hook
     (lambda ()
-      (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-      (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
-      (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)))
+	  (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+	  (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
+	  (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+	  (define-key evil-normal-state-local-map (kbd "a") 'neotree-create-node)
+	  (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
+	  (define-key evil-normal-state-local-map (kdb "c") 'neotree-copy-node)
+	  (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)))
 
+;; Autocomplete
+(define-key ac-mode-map (kbd "C-j") 'ac-next)
+(define-key ac-mode-map (kbd "C-k") 'ac-previous)
 
 ;; ESC to quit
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
