@@ -1,6 +1,10 @@
 /elpa/
+/auto-save-list/
 /games/
 ac-comphist.dat
 /recentf
 places
 savehist
+tags
+projectile.cache
+projectile-bookmarks.eld

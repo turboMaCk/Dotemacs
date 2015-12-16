@@ -7,14 +7,23 @@
 (add-hook
  'after-init-hook
  '(lambda ()
+
+    "Basics"
     (load "~/.emacs.d/config/init-packages.el")
     (load "~/.emacs.d/config/init-utils.el")
     (load "~/.emacs.d/config/init-core.el")
+
+    "Controlls"
     (load "~/.emacs.d/config/init-evil.el")
     (load "~/.emacs.d/config/init-helm.el")
     (load "~/.emacs.d/config/init-auto-complete.el")
-    (load "~/.emacs.d/config/init-bindings.el")
+
+    "Languages support"
     (load "~/.emacs.d/config/init-linting.el")
+    (load "~/.emacs.d/config/init-javascript.el")
+
+    "Glue"
+    (load "~/.emacs.d/config/init-bindings.el")
 
     ;; Theme
     (custom-set-variables

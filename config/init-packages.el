@@ -6,14 +6,20 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-initialize)
+;; Outside of packages system
+(add-to-list 'load-path "~/elisp")
+
+;; init
+(package-initialize nil)
 
 ;; Define packages
 (defvar required-packages
   '(
+    diminish
     evil
     evil-leader
     evil-commentary
+    key-chord
     helm
     helm-rails
     projectile
@@ -22,7 +28,6 @@
     helm-ag
     neotree
     magit
-    key-chord
     seti-theme
     auto-complete
     etags
@@ -30,6 +35,8 @@
     nyan-mode
     aggressive-indent
     editorconfig
+    js2-mode
+    ember-mode
     ) "a list of packages to ensure are installed at launch.")
 
 
@@ -45,7 +52,7 @@
   (message "%s" "Emacs is now refreshing its package database...")
   (package-refresh-contents)
   (message "%s" " done.")
-  ; install the missing packages
+                                        ; install the missing packages
   (dolist (p required-packages)
     (when (not (package-installed-p p))
       (package-install p))))

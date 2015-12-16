@@ -3,9 +3,18 @@
 (unless (server-running-p)
   (server-start))
 
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'menu-bar-mode) (menu-bar-mode 1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; Line numbers && fringe && wrapping
+(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'visual-line-mode)
+(when (display-graphic-p)
+  (lambda()
+    (fringe-mode 2)
+    (setq-default left-fringe-width 12)
+    (setq-default right-fringe-width 0)))
 
 (require 'saveplace)
 
@@ -66,16 +75,16 @@
         search-ring
         regexp-search-ring))
 
-
-;; Frunge
-(when (display-graphic-p) (fringe-mode 8))
-
 ;; Edif
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; re-builder
 (setq reb-re-syntax 'string) ;; fix backslash madness
+
+;; Winner mode
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
 
 ;; Clean up old buffers periodically
 (require 'midnight)
@@ -85,6 +94,7 @@
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)
 (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
+
 ;; better scrolling
 (setq scroll-conservatively 99999
       scroll-preserve-screen-position t
@@ -96,6 +106,7 @@
       uniquify-separator "/"
       uniquify-ignore-buffers-re "^\\*" ; leave special buffers alone
       uniquify-after-kill-buffer-p t)
+
 (defun my-do-not-kill-scratch-buffer ()
   (if (member (buffer-name (current-buffer))
               '("*scratch*" "*Messages*" "*Require Times*"))
