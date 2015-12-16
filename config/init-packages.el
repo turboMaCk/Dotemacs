@@ -15,16 +15,22 @@
     evil-leader
     evil-commentary
     helm
+    helm-rails
+    projectile
     helm-projectile
+    ag
+    helm-ag
     neotree
     magit
-    projectile
     key-chord
     seti-theme
     auto-complete
     etags
     ac-etags
-  ) "a list of packages to ensure are installed at launch.")
+    nyan-mode
+    aggressive-indent
+    editorconfig
+    ) "a list of packages to ensure are installed at launch.")
 
 
 ;; Function to check if all packages are installed

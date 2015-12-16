@@ -48,9 +48,27 @@
 (setq bookmark-default-file "~/.emacs.d/bookmakrs")
 (setq bookmark-save-flag 1)
 
+;; Backups
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+;; History
+(setq savehist-file "~/.emacs.d/savehist")
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
+
+
 ;; Frunge
-;(when (display-graphic-p)
-  ;(fringe-mode 16))
+(when (display-graphic-p) (fringe-mode 8))
 
 ;; Edif
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -67,10 +85,6 @@
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)
 (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
-
-;; backups
-(setq backup-directory-alist "~/.emacs.d/backups")
-
 ;; better scrolling
 (setq scroll-conservatively 99999
       scroll-preserve-screen-position t

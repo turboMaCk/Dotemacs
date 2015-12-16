@@ -11,5 +11,5 @@
 (setq evil-magic 'very-magic)
 
 ;; Custom commpad
-(evil-ex-define-cmd "W[rite]" 'evil-wrie)
+(evil-ex-define-cmd "W[rite]" 'evil-write)
 (evil-ex-define-cmd "Q[uit]" 'evil-quit)

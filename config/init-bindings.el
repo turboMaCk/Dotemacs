@@ -13,6 +13,7 @@
 ;; Evil-Leader
 (evil-leader/set-leader ",")
 (evil-leader/set-key
+  "a" 'helm-ag
   "m" 'helm-buffers-list
   "p" 'helm-find-files
   "x" 'helm-M-x
@@ -26,11 +27,12 @@
 (define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
 (define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-motion-state-map (kbd "C-l") 'evil-window-right)
-(define-key evil-motion-state-map (kbd "C-p") 'helm-find-files)
+
+;; useful tools
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-ag)
 
 ;; Helm
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
 
@@ -45,19 +47,21 @@
 ;; Neotree
 (define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
 (add-hook 'neotree-mode-hook
-    (lambda ()
-	  (define-key evil-motion-state-local-map (kbd "TAB") 'neotree-enter)
-	  (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
-	  (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
-	  (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
-							     :file-fn 'neo-open-file-vertical-split))
-	  (define-key evil-motion-state-local-map (kbd "i") (neotree-make-executor
-							     :file-fn 'neo-open-file-horizontal-split))
-	  "neotree bindings"))
+          (lambda ()
+            (define-key evil-motion-state-local-map (kbd "TAB") 'neotree-enter)
+            (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
+            (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
+            (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
+            (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
+                                                               :file-fn 'neo-open-file-vertical-split))
+            (define-key evil-motion-state-local-map (kbd "i") (neotree-make-executor
+                                                               :file-fn 'neo-open-file-horizontal-split))
+            "neotree bindings"))
 
 ;; Autocomplete
 (define-key ac-mode-map (kbd "C-j") 'ac-next)
 (define-key ac-mode-map (kbd "C-k") 'ac-previous)
+(define-key ac-mode-map (kbd "SHIFT-TAB") 'ac-previous)
 
 ;; ESC to quit
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
