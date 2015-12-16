@@ -22,11 +22,11 @@
   "e" 'eval-last-sexp)
 
 ;; Window navigation
-(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-find-files)
+(define-key evil-motion-state-map (kbd "C-h") 'evil-window-left)
+(define-key evil-motion-state-map (kbd "C-j") 'evil-window-down)
+(define-key evil-motion-state-map (kbd "C-k") 'evil-window-up)
+(define-key evil-motion-state-map (kbd "C-l") 'evil-window-right)
+(define-key evil-motion-state-map (kbd "C-p") 'helm-find-files)
 
 ;; Helm
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
@@ -46,13 +46,14 @@
 (define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
 (add-hook 'neotree-mode-hook
     (lambda ()
-	  (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-	  (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
-	  (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-	  (define-key evil-normal-state-local-map (kbd "a") 'neotree-create-node)
-	  (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
-	  (define-key evil-normal-state-local-map (kdb "c") 'neotree-copy-node)
-	  (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)))
+	  (define-key evil-motion-state-local-map (kbd "TAB") 'neotree-enter)
+	  (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
+	  (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
+	  (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
+							     :file-fn 'neo-open-file-vertical-split))
+	  (define-key evil-motion-state-local-map (kbd "i") (neotree-make-executor
+							     :file-fn 'neo-open-file-horizontal-split))
+	  "neotree bindings"))
 
 ;; Autocomplete
 (define-key ac-mode-map (kbd "C-j") 'ac-next)
