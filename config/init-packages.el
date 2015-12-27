@@ -15,6 +15,7 @@
 ;; Define packages
 (defvar required-packages
   '(
+    use-package
     diminish
     multi-term
     evil

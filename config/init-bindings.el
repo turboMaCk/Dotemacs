@@ -1,86 +1,121 @@
 ;; Evil
-(require 'evil)
+(use-package evil
+  :ensure t
+  :config
+  (progn
 
-;; Window navigation
-(define-key evil-motion-state-map (kbd "C-h") 'windmove-left)
-(define-key evil-motion-state-map (kbd "C-j") 'windmove-down)
-(define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
-(define-key evil-motion-state-map (kbd "C-l") 'windmove-right)
+    "Window navigation"
+    (define-key evil-motion-state-map (kbd "C-h") 'windmove-left)
+    (define-key evil-motion-state-map (kbd "C-j") 'windmove-down)
+    (define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
+    (define-key evil-motion-state-map (kbd "C-l") 'windmove-right)
 
-;; Winner mode
-(define-key evil-normal-state-map (kbd "C-c l") 'winner-redo)
-(define-key evil-normal-state-map (kbd "C-c h") 'winner-undo)
+    "Winner mode"
+    (define-key evil-normal-state-map (kbd "C-c l") 'winner-redo)
+    (define-key evil-normal-state-map (kbd "C-c h") 'winner-undo)
 
-;; ESC to quit
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+    "ESC to quit"
+    (define-key evil-normal-state-map [escape] 'keyboard-quit)
+    (define-key evil-visual-state-map [escape] 'keyboard-quit)
+    (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)))
 
-(require 'key-chord)
-;; Chord mode move to exit normal mode
-(key-chord-mode 1)
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+(use-package key-chord
+  :ensure t
+  :config
+  (progn
+
+    "Chord mode move to exit normal mode"
+    (key-chord-mode 1)
+    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+    (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)))
 
 ;; Helm
-(require 'helm)
-(with-eval-after-load "helm"
-  (bind-key "C-j" #'helm-next-line helm-map)
-  (bind-key "C-k" #'helm-previous-line helm-map))
+(use-package helm
+  :ensure t
+  :config
+  (progn
 
-;; emacs like
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-x r b") 'helm-bookmarks)
-(global-set-key (kbd "C-x y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+    "Super important helm bindings (vi like)"
+    (define-key helm-map (kbd "C-j") 'helm-next-line)
+    (define-key helm-map (kbd "C-k") 'helm-previous-line)
 
-(define-key helm-map (kbd "C-j") 'helm-select-next)
+    "Force emacs to use helm"
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "C-x b") 'helm-buffers-list)
+    (global-set-key (kbd "C-x r b") 'helm-bookmarks)
+    (global-set-key (kbd "C-x y") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)))
+
+(use-package helm-ag
+  :ensure t)
 
 ;; Helm projectile
-(require 'helm-projectile)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
-(define-key evil-motion-state-map (kbd "C-M-p") 'helm-projectile-switch-project)
-(define-key evil-normal-state-map (kbd "C-a") 'helm-projectile-ag)
+(use-package helm-projectile
+  :ensure t
+  :init
+  (progn
 
+    "Helm-projectile bindings (evil-normal)"
+    (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
+    (define-key evil-motion-state-map (kbd "C-M-p") 'helm-projectile-switch-project)
+    (define-key evil-normal-state-map (kbd "C-a") 'helm-ag)))
 
 ;; Evil-Leader
-(require 'evil-leader)
-(evil-leader/set-leader ",")
-(evil-leader/set-key
-  "a" 'helm-ag
-  "t" 'multi-term
-  "l" 'multi-term-next
-  "h" 'multi-term-prev
-  "p" 'helm-find-files
-  "x" 'helm-M-x
-  "m" 'helm-buffer-list
-  "r b" 'helm-bookmarks
-  "y" 'helm-show-kill-ring
-  "m" 'helm-buffers-list
-  "e" 'eval-last-sexp)
+(use-package evil-leader
+  :ensure t
+  :init
+  (progn
 
-(require 'auto-complete)
+    "Map leader to ,"
+    (evil-leader/set-leader ",")
 
-;; Autocomplete
-(define-key ac-mode-map (kbd "C-j") 'ac-next)
-(define-key ac-mode-map (kbd "C-k") 'ac-previous)
+    "map leader keys"
+    (evil-leader/set-key
+        "a" 'helm-ag
+        "t" 'multi-term
+        "l" 'multi-term-next
+        "h" 'multi-term-prev
+        "p" 'helm-find-files
+        "x" 'helm-M-x
+        "m" 'helm-buffer-list
+        "r b" 'helm-bookmarks
+        "y" 'helm-show-kill-ring
+        "m" 'helm-buffers-list
+        "e" 'eval-last-sexp)))
+
+;; autocomplete
+;; TODO: C-k insert mode issue
+(use-package auto-complete
+  :ensure t
+  :config
+  (progn
+
+    "Vi like navigation"
+    (define-key ac-mode-map (kbd "C-j") 'ac-next)
+    (define-key ac-mode-map (kbd "C-k") 'ac-previous)))
 
 ;; Neotree
 (require 'neotree)
-(define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
-(add-hook 'neotree-mode-hook
-          (lambda ()
+(use-package neotree
+  :ensure t
+  :init
+  (progn
+    "C-e to toggle neotree"
+    (define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
+
+    "neotree keys"
+    (add-hook 'neotree-mode-hook
+        (lambda ()
             (define-key evil-motion-state-local-map (kbd "TAB") 'neotree-enter)
             (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
             (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
             (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
             (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
-                                                               :file-fn 'neo-open-file-vertical-split))
+                                                                :file-fn 'neo-open-file-vertical-split))
             (define-key evil-motion-state-local-map (kbd "i") (neotree-make-executor
-                                                               :file-fn 'neo-open-file-horizontal-split))
-            "neotree bindings"))
+                                                                :file-fn 'neo-open-file-horizontal-split))
+            "neotree bindings"))))
