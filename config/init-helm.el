@@ -1,14 +1,20 @@
-(require 'helm-config)
-(helm-mode 1)
+(use-package helm
+  :ensure t
+  :init (require 'helm-config)
+  :config
+  (helm-mode 1))
 
 (require 'projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-global-mode)
+  (setq projectile-enable-caching -1))
 
-(setq helm-projectile-fuzzy-match t)
-
-(require 'helm-projectile)
-
-;; Neotree integration
-(defadvice helm-projectile-find-file (after helm-projectile-switch-project activate)
-  (neotree-dir default-directory))
+;; TODO: fix neotree integration
+(use-package helm-projectile
+  :ensure t
+  :init (setq helm-projectile-fuzzy-match t)
+  :config
+  (defadvice helm-projectile-find-file (after helm-projectile-switch-project activate)
+    (neotree-dir default-directory)))
