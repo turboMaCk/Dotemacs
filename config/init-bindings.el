@@ -41,7 +41,7 @@
 
 ;; Helm projectile
 (require 'helm-projectile)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile)
 (define-key evil-motion-state-map (kbd "C-M-p") 'helm-projectile-switch-project)
 (define-key evil-normal-state-map (kbd "C-a") 'helm-projectile-ag)
 
@@ -51,6 +51,9 @@
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "a" 'helm-ag
+  "t" 'multi-term
+  "l" 'multi-term-next
+  "h" 'multi-term-prev
   "p" 'helm-find-files
   "x" 'helm-M-x
   "m" 'helm-buffer-list
@@ -63,7 +66,6 @@
 ;; Autocomplete
 (define-key ac-mode-map (kbd "C-j") 'ac-next)
 (define-key ac-mode-map (kbd "C-k") 'ac-previous)
-(define-key ac-mode-map (kbd "N-TAB") 'ac-previous)
 
 ;; Neotree
 (require 'neotree)

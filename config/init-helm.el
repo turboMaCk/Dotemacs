@@ -10,5 +10,5 @@
 (require 'helm-projectile)
 
 ;; Neotree integration
-(defadvice helm-projectile-switch-project (after helm-projectile-switch-project activate)
+(defadvice helm-projectile-find-file (after helm-projectile-switch-project activate)
   (neotree-dir default-directory))

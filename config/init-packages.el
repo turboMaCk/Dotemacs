@@ -16,9 +16,11 @@
 (defvar required-packages
   '(
     diminish
+    multi-term
     evil
     evil-leader
     evil-commentary
+    evil-magit
     key-chord
     helm
     helm-rails
@@ -37,6 +39,11 @@
     editorconfig
     js2-mode
     ember-mode
+    handlebars-mode
+    flymake-jshint
+    flymake-ruby
+    flymake-shell
+    autopair
     ) "a list of packages to ensure are installed at launch.")
 
 

@@ -15,6 +15,7 @@
     (fringe-mode 2)
     (setq-default left-fringe-width 12)
     (setq-default right-fringe-width 0)))
+(setq-default truncate-lines t)
 
 (require 'saveplace)
 
