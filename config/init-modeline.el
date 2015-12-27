@@ -1,3 +1,5 @@
+(require 'nyan-mode)
+
 ;; Helper function
 (defun shorten-directory (dir max-length)
   "Show up to `max-length' characters of a directory name `dir'."
@@ -78,7 +80,7 @@
     :box '(:line-width 6 :color "gray40" :style nil))
 (set-face-attribute 'mode-line-base-face nil
     :inherit 'mode-line-face
-    :family "Menlo" :height 100)
+    :family "Menlo" :height 120)
 (set-face-attribute 'mode-line-read-only-face nil
     :inherit 'mode-line-face
     :foreground "#4271ae")
@@ -97,3 +99,5 @@
     :inherit 'mode-line-face
     :foreground "gray60" :background "gray20")
 
+;; Animate nyan cat
+(nyan-start-animation)

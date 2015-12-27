@@ -29,7 +29,7 @@
 (run-with-timer 1800 1800 'recentf-save-list)
 
 ;; Garbage collection
-(run-with-idle-timer (* 60 3) t #'garbage-collect)
+;; (run-with-idle-timer (* 60 3) t #'garbage-collect)
 
 ;; pcomplete
 (setq pcomplete-ignore-case t)
@@ -97,7 +97,7 @@
 (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
 
 ;; better scrolling
-(setq scroll-conservatively 99999
+(setq scroll-conservatively 9999
       scroll-preserve-screen-position t
       scroll-margin 3)
 
@@ -127,7 +127,7 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;; USEFULL
+;; USEFULL (for not going mad)
 (setq ring-bell-function 'ignore)
 (setq sentence-end-double-space nil)
 (setq delete-by-moving-to-trash t)

@@ -28,9 +28,11 @@
 
 ;; Helm
 (require 'helm)
-(define-key helm-map (kbd "C-j") 'helm-next-line)
-(define-key helm-map (kbd "C-k") 'helm-previous-line)
+(with-eval-after-load "helm"
+  (bind-key "C-j" #'helm-next-line helm-map)
+  (bind-key "C-k" #'helm-previous-line helm-map))
 
+;; emacs like
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
@@ -41,7 +43,7 @@
 
 ;; Helm projectile
 (require 'helm-projectile)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
 (define-key evil-motion-state-map (kbd "C-M-p") 'helm-projectile-switch-project)
 (define-key evil-normal-state-map (kbd "C-a") 'helm-projectile-ag)
 
@@ -59,6 +61,7 @@
   "m" 'helm-buffer-list
   "r b" 'helm-bookmarks
   "y" 'helm-show-kill-ring
+  "m" 'helm-buffers-list
   "e" 'eval-last-sexp)
 
 (require 'auto-complete)
