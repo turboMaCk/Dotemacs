@@ -22,6 +22,9 @@
 (use-package evil-leader
   :ensure t
   :init (global-evil-leader-mode))
+(use-package evil-surround
+  :ensure t
+  :init (global-evil-surround-mode))
 
 ;; optional: this is the evil state that evil-magit will use
 ;; (setq evil-magit-state 'motion)
