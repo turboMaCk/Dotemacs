@@ -1,6 +1,11 @@
+;;; package --- Summary:
+;;; Commentary:
 ;;; (require 'aggressive-indent)
 ;;; (global-aggressive-indent-mode 1)
 ;;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+
+;;; Code:
+(require 'use-package)
 
 ;; Indentation
 (setq-default indent-tabs-mode nil)
@@ -30,3 +35,6 @@
 
 (add-hook 'js-mode-hook
           (lambda () (flycheck-mode t)))
+
+(provide 'init-linting)
+;;; init-linting.el ends here

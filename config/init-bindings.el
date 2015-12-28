@@ -1,4 +1,9 @@
-;; Evil
+;;; package --- Summary
+;;; Commentary:
+;;; Setup EVIL MODE and related packages
+
+;;; Code:
+(require 'use-package)
 (use-package evil
   :ensure t
   :config
@@ -99,7 +104,6 @@
     (define-key ac-mode-map (kbd "C-k") 'ac-previous)))
 
 ;; Neotree
-(require 'neotree)
 (use-package neotree
   :ensure t
   :init
@@ -116,6 +120,9 @@
             (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
             (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
                                                                 :file-fn 'neo-open-file-vertical-split))
-            (define-key evil-motion-state-local-map (kbd "i") (neotree-make-executor
+            (define-key evil-motion-state-local-map (kbd "s") (neotree-make-executor
                                                                 :file-fn 'neo-open-file-horizontal-split))
-            "neotree bindings"))))
+            'append))))
+
+(provide 'init-bindings)
+;;; init-bindings.el ends here

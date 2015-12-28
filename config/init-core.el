@@ -1,3 +1,8 @@
+;;; package --- Summary
+;;; Commentary:
+;;; setup basic emacs features
+
+;;; Code:
 (require 'use-package)
 
 (require 'server)
@@ -34,7 +39,7 @@
     (run-with-timer 1800 1800 'recentf-save-list))
 
 ;; Garbage collection
-;; (run-with-idle-timer (* 60 3) t #'garbage-collect)
+(run-with-idle-timer (* 60 3) t #'garbage-collect)
 
 ;; pcomplete
 (setq pcomplete-ignore-case t)
@@ -114,8 +119,9 @@
       uniquify-after-kill-buffer-p t)
 
 (defun my-do-not-kill-scratch-buffer ()
-  (if (member (buffer-name (current-buffer))
-              '("*scratch*" "*Messages*" "*Require Times*"))
+    "PREVENT KILLING SCRATCH BUFFERS!"
+    (if (member (buffer-name (current-buffer))
+                '("*scratch*" "*Messages*" "*Require Times*"))
       (progn
         (bury-buffer)
         nil)
@@ -159,3 +165,4 @@
 (random t) ;; seed
 
 (provide 'init-core)
+;;; init-core.el ends here

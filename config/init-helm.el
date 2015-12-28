@@ -1,3 +1,7 @@
+;;; package --- Summary:
+;;; Commentary:
+;;; Code:
+(require 'use-package)
 (use-package helm
   :ensure t
   :init (require 'helm-config)
@@ -18,3 +22,6 @@
   :config
   (defadvice helm-projectile-find-file (after helm-projectile-switch-project activate)
     (neotree-dir default-directory)))
+
+(provide 'init-helm)
+;;; init-helm.el ends here

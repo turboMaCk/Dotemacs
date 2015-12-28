@@ -1,4 +1,8 @@
+;;; package --- Summary
+;;; Commentary:
 ;; TODO: ex define Wq && WQ
+;;; Code:
+(require 'use-package)
 (use-package evil
   :ensure t
   :init
@@ -33,3 +37,6 @@
 ;; (setq evil-use-y-for-yank t)
 (use-package evil-magit
   :ensure t)
+
+(provide 'init-evil)
+;;; init-evil.el ends here

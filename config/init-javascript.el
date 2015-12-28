@@ -1,5 +1,9 @@
-(require 'handlebars-mode)
+;;; package --- Summary:
+;;; Commentary:
+;;; Code:
+(require 'use-package)
+(use-package handlebars-mode
+  :ensure t)
 
-(require 'flymake-jshint)
-(add-hook 'javascript-mode-hook
-     (lambda () (flymake-mode t)))
+(provide 'init-javascript)
+;;; init-javascript.el ends here
