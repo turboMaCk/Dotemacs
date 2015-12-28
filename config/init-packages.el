@@ -36,14 +36,10 @@
     etags
     ac-etags
     nyan-mode
-    aggressive-indent
     editorconfig
-    js2-mode
+    web-mode
     ember-mode
     handlebars-mode
-    flymake-jshint
-    flymake-ruby
-    flymake-shell
     autopair
     ) "a list of packages to ensure are installed at launch.")
 

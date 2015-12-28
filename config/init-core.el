@@ -1,9 +1,10 @@
 (require 'use-package)
+
 (require 'server)
-
 (unless (server-running-p)
-  (server-start))
+    (server-start))
 
+;; Interface
 (when (fboundp 'menu-bar-mode) (menu-bar-mode 1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -18,16 +19,19 @@
     (setq-default right-fringe-width 0)))
 (setq-default truncate-lines t)
 
-(require 'saveplace)
+(use-package saveplace
+  :init
+  (setq-default save-place t))
 
-(require 'recentf)
-(setq recentf-save-file "~/.emacs.d/recentf")
-(setq recentf-max-saved-items 1000)
-(setq recentf-max-menu-items 500)
-(setq recentf-auto-cleanup 300)
-(add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
-(recentf-mode t)
-(run-with-timer 1800 1800 'recentf-save-list)
+(use-package recentf
+  :init
+    (recentf-mode t)
+    (setq recentf-save-file "~/.emacs.d/recentf")
+    (setq recentf-max-saved-items 1000)
+    (setq recentf-max-menu-items 500)
+    (setq recentf-auto-cleanup 300)
+    (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+    (run-with-timer 1800 1800 'recentf-save-list))
 
 ;; Garbage collection
 ;; (run-with-idle-timer (* 60 3) t #'garbage-collect)
