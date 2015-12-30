@@ -23,6 +23,8 @@
     "Languages support"
     (load "~/.emacs.d/config/init-linting.el")
     (load "~/.emacs.d/config/init-javascript.el")
+    (load "~/.emacs.d/config/init-ruby.el")
+    (load "~/.emacs.d/config/init-markdown.el")
 
     "Glue"
     (load "~/.emacs.d/config/init-bindings.el")
