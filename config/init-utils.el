@@ -34,4 +34,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (neotree-dir default-directory))
 
+(defun my/neotree-hide()
+  "hide neotree and skip to window on left"
+
+  (interactive)
+  (neotree-hide)
+  (evil-window-move-far-left))
+
+(defun my/toggle-term()
+  (interactive)
+  (split-window-below)
+  (windmove-down)
+  (term "/bin/zsh"))
+
 ;;; init-utils.el ends here

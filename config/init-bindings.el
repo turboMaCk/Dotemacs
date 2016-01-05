@@ -85,7 +85,7 @@
     "map leader keys"
     (evil-leader/set-key
         "a" 'helm-ag
-        "t" 'multi-term
+        "t" 'my/toggle-term
         "l" 'multi-term-next
         "h" 'multi-term-prev
         "p" 'helm-find-files
@@ -122,7 +122,7 @@
             (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
             (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
             (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
-            (define-key evil-motion-state-local-map (kbd "C-l") 'neotree-hide)
+            (define-key evil-motion-state-local-map (kbd "C-l") 'my/neotree-hide)
             (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
                                                                 :file-fn 'neo-open-file-vertical-split))
             (define-key evil-motion-state-local-map (kbd "s") (neotree-make-executor
