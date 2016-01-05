@@ -113,7 +113,7 @@
   :init
   (progn
     "C-e to toggle neotree"
-    (define-key evil-normal-state-map (kbd "C-e") 'neotree-toggle)
+    (define-key evil-normal-state-map (kbd "C-e") 'my/neotree-open)
 
     "neotree keys"
     (add-hook 'neotree-mode-hook
@@ -122,6 +122,7 @@
             (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
             (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
             (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
+            (define-key evil-motion-state-local-map (kbd "C-l") 'neotree-hide)
             (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
                                                                 :file-fn 'neo-open-file-vertical-split))
             (define-key evil-motion-state-local-map (kbd "s") (neotree-make-executor

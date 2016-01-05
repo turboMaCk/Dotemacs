@@ -14,7 +14,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
-(defun my/vmysplit-and-skip()
+(defun my/vsplit-and-skip()
   "split verticaly and skip to new window"
 
   (interactive)
@@ -27,5 +27,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (evil-window-split)
   (windmove-down))
+
+(defun my/neotree-open()
+  "set neotree root dir and toggle neotree state"
+
+  (interactive)
+  (neotree-dir default-directory))
 
 ;;; init-utils.el ends here
