@@ -101,3 +101,5 @@
 
 ;; Animate nyan cat
 (nyan-start-animation)
+
+(load-theme 'misterioso t)

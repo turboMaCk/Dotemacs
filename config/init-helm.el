@@ -4,9 +4,10 @@
 (require 'use-package)
 (use-package helm
   :ensure t
-  :init (require 'helm-config)
-  :config
-  (helm-mode 1))
+  :init
+  (require 'helm-config)
+  (helm-mode 1)
+  (helm-autoresize-mode 1))
 
 (require 'projectile)
 (use-package projectile
@@ -18,10 +19,7 @@
 ;; TODO: fix neotree integration
 (use-package helm-projectile
   :ensure t
-  :init (setq helm-projectile-fuzzy-match t)
-  :config
-  (defadvice helm-projectile-find-file (after helm-projectile-switch-project activate)
-    (neotree-dir default-directory)))
+  :init (setq helm-projectile-fuzzy-match t))
 
 (provide 'init-helm)
 ;;; init-helm.el ends here

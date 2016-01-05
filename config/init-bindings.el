@@ -15,6 +15,10 @@
     (define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
     (define-key evil-motion-state-map (kbd "C-l") 'windmove-right)
 
+    "Window spliting"
+    (define-key evil-window-map (kbd "v") 'my/vsplit-and-skip)
+    (define-key evil-window-map (kbd "s") 'my/split-and-skip)
+
     "Winner mode"
     (define-key evil-normal-state-map (kbd "C-c l") 'winner-redo)
     (define-key evil-normal-state-map (kbd "C-c h") 'winner-undo)
