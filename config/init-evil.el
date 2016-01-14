@@ -35,8 +35,8 @@
 ;; optional: enable additional bindings for yanking text (evil-magit-state needs
 ;; to be 'normal for this to work properly)
 ;; (setq evil-use-y-for-yank t)
-(use-package evil-magit
-  :ensure t)
+;(use-package evil-magit
+  ;:ensure t)
 
 (provide 'init-evil)
 ;;; init-evil.el ends here

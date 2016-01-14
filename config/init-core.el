@@ -14,6 +14,15 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; Exec path
+(setq exec-path (append exec-path '("Users/marek/.nvm/versions/node/v0.12.9/bin:/Users/marek/.rbenv/shims:/usr/local/sbin:/usr/local/bin")))
+
+;; exec path
+(use-package exec-path-from-shell
+  :ensure t
+  :init (when (memq window-system '(mac ns))
+          (exec-path-from-shell-initialize)))
+
 ;; Line numbers && fringe && wrapping
 (add-hook 'prog-mode-hook 'linum-mode)
 ;; (add-hook 'prog-mode-hook 'visual-line-mode)

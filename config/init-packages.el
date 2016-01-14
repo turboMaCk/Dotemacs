@@ -41,6 +41,7 @@
     ember-mode
     handlebars-mode
     autopair
+    magit
     ) "a list of packages to ensure are installed at launch.")
 
 
