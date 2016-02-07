@@ -30,6 +30,10 @@
   :ensure t
   :init (global-evil-surround-mode))
 
+;; Tmux!!
+(use-package navigate
+  :ensure t)
+
 ;; optional: this is the evil state that evil-magit will use
 ;; (setq evil-magit-state 'motion)
 ;; optional: enable additional bindings for yanking text (evil-magit-state needs
