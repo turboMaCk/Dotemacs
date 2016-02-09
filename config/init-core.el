@@ -26,7 +26,9 @@
 ;; Line numbers && fringe && wrapping
 (add-hook 'prog-mode-hook 'linum-mode)
 ;; (add-hook 'prog-mode-hook 'visual-line-mode)
+
 (when (display-graphic-p)
+
   (lambda()
     (fringe-mode 2)
     (setq-default left-fringe-width 12)
@@ -38,6 +40,9 @@
 (use-package saveplace
   :init
   (setq-default save-place t))
+
+(use-package smooth-scrolling
+  :ensure t)
 
 (use-package recentf
   :init

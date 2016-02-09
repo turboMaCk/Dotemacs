@@ -20,3 +20,5 @@
                                 :when '(("SPC" "RET"))
                                 :post-handlers '(sp-ruby-def-post-handler)
                                 :actions '(insert navigate))))
+
+(provide 'init-elixir)

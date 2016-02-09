@@ -15,6 +15,7 @@
 ;; Define packages
 (defvar required-packages
   '(
+    flycheck
     use-package
     diminish
     multi-term
@@ -35,7 +36,6 @@
     auto-complete
     etags
     ac-etags
-    nyan-mode
     editorconfig
     web-mode
     ember-mode
@@ -61,3 +61,5 @@
   (dolist (p required-packages)
     (when (not (package-installed-p p))
       (package-install p))))
+
+(provide 'init-packages)

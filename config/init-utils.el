@@ -47,4 +47,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (windmove-down)
   (term "/bin/zsh"))
 
+(provide 'init-utils)
 ;;; init-utils.el ends here

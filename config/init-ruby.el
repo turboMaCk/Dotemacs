@@ -10,4 +10,5 @@
 (use-package yaml-mode
   :ensure t)
 
+(provide 'init-ruby)
 ;;; init-ruby ends here

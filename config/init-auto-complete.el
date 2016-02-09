@@ -20,3 +20,5 @@
     (setq ac-etags-requires 1)
     (ac-config-default)
     (ac-etags-setup))
+
+(provide 'auto-complete)

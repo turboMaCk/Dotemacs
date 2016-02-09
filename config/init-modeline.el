@@ -1,4 +1,3 @@
-(require 'nyan-mode)
 
 ;; Helper function
 (defun shorten-directory (dir max-length)
@@ -52,8 +51,6 @@
    ; mode indicators: vc, recursive edit, major mode, minor modes, process, global
    (vc-mode vc-mode)
    " "
-   ; nyan-mode uses nyan cat as an alternative to %p
-   (:eval (when nyan-mode (list (nyan-create))))
    (:propertize "%[ "
                 face mode-line-mode-face)
    (:propertize mode-name
@@ -99,5 +96,4 @@
     :inherit 'mode-line-face
     :foreground "gray60" :background "gray20")
 
-;; Animate nyan cat
-(nyan-start-animation)
+(provide 'init-modeline)

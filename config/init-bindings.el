@@ -23,6 +23,10 @@
     (define-key evil-normal-state-map (kbd "C-c l") 'winner-redo)
     (define-key evil-normal-state-map (kbd "C-c h") 'winner-undo)
 
+    "Better line navigation"
+    (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
     "ESC to quit"
     (define-key evil-normal-state-map [escape] 'keyboard-quit)
     (define-key evil-visual-state-map [escape] 'keyboard-quit)
@@ -30,7 +34,8 @@
     (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)))
+    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+    (global-set-key [escape] 'evil-exit-emacs-state)))
 
 (use-package key-chord
   :ensure t
@@ -78,6 +83,9 @@
   :ensure t
   :init
   (progn
+
+    "Everywhere"
+    (setq evil-leader/in-all-states 1)
 
     "Map leader to ,"
     (evil-leader/set-leader ",")
