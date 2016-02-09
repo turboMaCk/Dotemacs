@@ -14,6 +14,11 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; start scratch in text mode (usefull to get a faster Emacs load time
+;; because it avoids autoloads of elisp modes)
+(setq initial-major-mode 'text-mode)
+(setq redisplay-dont-pause t)
+
 ;; Exec path
 (setq exec-path (append exec-path '("Users/marek/.nvm/versions/node/v0.12.9/bin:/Users/marek/.rbenv/shims:/usr/local/sbin:/usr/local/bin")))
 
@@ -34,8 +39,7 @@
     (setq-default left-fringe-width 12)
     (setq-default right-fringe-width 0)))
 (setq-default truncate-lines t)
-
-(setq line-spacing 0.5)
+(setq line-spacing 2)
 
 (use-package saveplace
   :init
