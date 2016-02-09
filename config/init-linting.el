@@ -5,7 +5,6 @@
 ;;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
 
 ;;; Code:
-(require 'use-package)
 
 ;; Indentation
 (setq-default indent-tabs-mode nil)
@@ -13,28 +12,31 @@
 (setq indent-line-function 'insert-tab)
 (electric-pair-mode)
 
-(use-package editorconfig
-  :ensure t
-  :init (editorconfig-mode))
-
 ;; Remove trailing witespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; (use-package flymake-easy
-;;   :init (setq flymake-log-level 3))
+;; Editor Config
+(require-package 'editorconfig)
+(after 'editorconfig
+  (editorconfig-mode))
 
-;; (use-package flymake-jshint
-;;   :ensure t
-;;   :init ())
+;; Flycheck
+(require-package 'flycheck)
+(after 'flycheck
+  (setq flycheck-check-syntax-automatically '(save mode-enabled)
+        flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers)
+        flycheck-checkers (delq 'html-tidy flycheck-checkers)
+        flycheck-standard-error-navigation nil)
+  (global-flycheck-mode))
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+;; flycheck errors on a tooltip (doesnt work on console)
+(when (display-graphic-p (selected-frame))
+  (eval-after-load 'flycheck
+    '(custom-set-variables
+      '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
 
-(provide 'init-linting)
-
-(add-hook 'js-mode-hook
-          (lambda () (flycheck-mode t)))
+;; (add-hook 'js-mode-hook
+;;           (lambda () (flycheck-mode t)))
 
 (provide 'init-linting)
 ;;; init-linting.el ends here

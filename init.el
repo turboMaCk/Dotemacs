@@ -1,6 +1,7 @@
 (setq user-full-name "Marek Fajksu"
       user-mail-address "marek.faj@gmail.com")
 
+(add-to-list 'load-path (expand-file-name "config" user-emacs-directory))
 (add-hook
  'after-init-hook
  '(lambda ()

@@ -2,10 +2,11 @@
 (require 'cl)
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
 ;; Outside of packages system
 (add-to-list 'load-path "~/elisp")
 
@@ -15,7 +16,6 @@
 ;; Define packages
 (defvar required-packages
   '(
-    flycheck
     use-package
     diminish
     multi-term
@@ -61,5 +61,13 @@
   (dolist (p required-packages)
     (when (not (package-installed-p p))
       (package-install p))))
+
+(defun require-package (package)
+  (setq-default highlight-tabs t)
+  "Install given PACKAGE."
+  (unless (package-installed-p package)
+    (unless (assoc package package-archive-contents)
+      (package-refresh-contents))
+    (package-install package)))
 
 (provide 'init-packages)

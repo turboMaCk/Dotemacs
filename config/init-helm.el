@@ -2,6 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 (require 'use-package)
+
 (use-package helm
   :ensure t
   :init
