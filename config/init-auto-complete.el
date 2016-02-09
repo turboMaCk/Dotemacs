@@ -32,4 +32,3 @@
     (ac-etags-setup))
 
 (provide 'auto-complete)
-asd
