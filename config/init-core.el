@@ -1,6 +1,6 @@
 ;;; package --- Summary
 ;;; Commentary:
-;;; setup basic emacs features
+;;; setup basic Emacs features
 
 ;;; Code:
 (require 'use-package)
@@ -32,6 +32,8 @@
     (setq-default left-fringe-width 12)
     (setq-default right-fringe-width 0)))
 (setq-default truncate-lines t)
+
+(setq line-spacing 0.5)
 
 (use-package saveplace
   :init

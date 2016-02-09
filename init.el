@@ -8,6 +8,7 @@
     "Basics"
     (load "~/.emacs.d/config/init-packages.el")
     (load "~/.emacs.d/config/init-utils.el")
+    (load "~/.emacs.d/config/init-osx.el")
     (load "~/.emacs.d/config/init-core.el")
     (load "~/.emacs.d/config/init-term.el")
     (load "~/.emacs.d/config/init-modeline.el")
