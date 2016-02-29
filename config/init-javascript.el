@@ -5,8 +5,5 @@
 (use-package handlebars-mode
   :ensure t)
 
-(use-package elm-mode
-  :ensure t)
-
 (provide 'init-javascript)
 ;;; init-javascript.el ends here

@@ -25,9 +25,11 @@
     (load "~/.emacs.d/config/init-linting.el")
     (load "~/.emacs.d/config/init-web.el")
     (load "~/.emacs.d/config/init-javascript.el")
+    (load "~/.emacs.d/config/init-elm.el")
     (load "~/.emacs.d/config/init-ruby.el")
     (load "~/.emacs.d/config/init-markdown.el")
     (load "~/.emacs.d/config/init-elixir")
+    (load "~/.emacs.d/config/init-clojure")
 
     "Glue"
     (load "~/.emacs.d/config/init-bindings.el")))
