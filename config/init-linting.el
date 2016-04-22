@@ -37,5 +37,18 @@
 ;; (add-hook 'js-mode-hook
 ;;           (lambda () (flycheck-mode t)))
 
+;; Line ends
+(defun dos-file-endings-p ()
+  "Check if dos enconding is used."
+  (string-match "dos" (symbol-name buffer-file-coding-system)))
+
+(defun find-file-check-line-endings ()
+  "Force UNIX line endings."
+  (when (dos-file-endings-p)
+    (set-buffer-file-coding-system 'undecided-unix)
+    (set-buffer-modified-p nil)))
+
+(add-hook 'find-file-hook 'find-file-check-line-endings)
+
 (provide 'init-linting)
 ;;; init-linting.el ends here

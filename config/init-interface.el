@@ -1,3 +1,4 @@
+(require 'init-evil)
 (require 'seti-theme)
 (load-theme 'seti t)
 

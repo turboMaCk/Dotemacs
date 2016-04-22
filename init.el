@@ -30,6 +30,8 @@
     (load "~/.emacs.d/config/init-markdown.el")
     (load "~/.emacs.d/config/init-elixir")
     (load "~/.emacs.d/config/init-clojure")
+    (load "~/.emacs.d/config/init-rust")
+    (load "~/.emacs.d/config/init-erlang")
 
     "Glue"
     (load "~/.emacs.d/config/init-bindings.el")))
