@@ -1,4 +1,4 @@
-(setq user-full-name "Marek Fajksu"
+(setq user-full-name "Marek Fajkus"
       user-mail-address "marek.faj@gmail.com")
 
 (add-to-list 'load-path (expand-file-name "config" user-emacs-directory))
@@ -15,6 +15,7 @@
     (load "~/.emacs.d/config/init-modeline.el")
     (load "~/.emacs.d/config/init-interface.el")
     (load "~/.emacs.d/config/init-yasnippet.el")
+    (load "~/.emacs.d/config/init-org.el")
 
     "Controlls"
     (load "~/.emacs.d/config/init-evil.el")
