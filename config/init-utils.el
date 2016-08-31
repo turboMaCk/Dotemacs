@@ -3,7 +3,6 @@
 
 ;;; Code:
 ;;; Mini buffer cloasing
-
 (if (fboundp 'with-eval-after-load)
   (defmacro after (feature &rest body)
     "After FEATURE is loaded, evaluate BODY."

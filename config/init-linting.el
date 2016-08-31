@@ -29,10 +29,10 @@
   (global-flycheck-mode))
 
 ;; flycheck errors on a tooltip (doesnt work on console)
-(when (display-graphic-p (selected-frame))
-  (eval-after-load 'flycheck
-    '(custom-set-variables
-      '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
+;; (when (display-graphic-p (selected-frame))
+;;   (eval-after-load 'flycheck
+;;     '(custom-set-variables
+;;       '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
 
 ;; (add-hook 'js-mode-hook
 ;;           (lambda () (flycheck-mode t)))
