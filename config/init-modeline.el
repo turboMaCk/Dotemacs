@@ -1,4 +1,4 @@
-
+(require 'nyan-mode)
 ;; Helper function
 (defun shorten-directory (dir max-length)
   "Show up to `max-length' characters of a directory name `dir'."
@@ -57,7 +57,7 @@
                 face mode-line-mode-face)
    (:propertize "%] "
                 face mode-line-mode-face)
-   ))
+   (:eval (when nyan-mode (list (nyan-create))))))
 
 ;; Extra mode line faces
 (make-face 'mode-line-base-face)
@@ -95,5 +95,7 @@
 (set-face-attribute 'mode-line-mode-face nil
     :inherit 'mode-line-face
     :foreground "gray60" :background "gray20")
+
+(nyan-start-animation)
 
 (provide 'init-modeline)
