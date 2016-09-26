@@ -58,5 +58,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (windmove-down)
   (term "/bin/zsh"))
 
+(defun my/rotate-windows-helper(x d)
+  (if (equal (cdr x) nil) (set-window-buffer (car x) d)
+    (set-window-buffer (car x) (window-buffer (cadr x))) (rotate-windows-helper (cdr x) d)))
+
+(defun my/rotate-windows ()
+  "Rotate Emacs windows."
+  (interactive)
+  (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
+  (select-window (car (last (window-list)))))
+
 (provide 'init-utils)
 ;;; init-utils.el ends here

@@ -12,7 +12,7 @@
 ;; Interface
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode t))
 
 ;; start scratch in text mode (usefull to get a faster Emacs load time
 ;; because it avoids autoloads of elisp modes)
@@ -30,10 +30,9 @@
 
 ;; Line numbers && fringe && wrapping
 (add-hook 'prog-mode-hook 'linum-mode)
-;; (add-hook 'prog-mode-hook 'visual-line-mode)
+(add-hook 'prog-mode-hook 'visual-line-mode)
 
 (when (display-graphic-p)
-
   (lambda()
     (fringe-mode 2)
     (setq-default left-fringe-width 12)
