@@ -10,9 +10,11 @@
     (server-start))
 
 ;; Interface
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode t))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (display-graphic-p)
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode t))
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
 
 ;; start scratch in text mode (usefull to get a faster Emacs load time
 ;; because it avoids autoloads of elisp modes)

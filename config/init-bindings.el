@@ -14,6 +14,7 @@
     (define-key evil-motion-state-map (kbd "C-j") 'windmove-down)
     (define-key evil-motion-state-map (kbd "C-k") 'windmove-up)
     (define-key evil-motion-state-map (kbd "C-l") 'windmove-right)
+    (define-key evil-motion-state-map (kbd "C-w r") 'my/rotate-windows)
 
     "Window spliting"
     (define-key evil-window-map (kbd "v") 'my/vsplit-and-skip)
