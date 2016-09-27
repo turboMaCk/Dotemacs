@@ -30,9 +30,8 @@
   :init (when (memq window-system '(mac ns))
           (exec-path-from-shell-initialize)))
 
-;; Line numbers && fringe && wrapping
+;; Line numbers && fringe
 (add-hook 'prog-mode-hook 'linum-mode)
-(add-hook 'prog-mode-hook 'visual-line-mode)
 
 (when (display-graphic-p)
   (lambda()
