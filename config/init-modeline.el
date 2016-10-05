@@ -96,6 +96,8 @@
     :inherit 'mode-line-face
     :foreground "gray60" :background "gray20")
 
+(nyan-mode t)
 (nyan-start-animation)
+(nyan-toggle-wavy-trail)
 
 (provide 'init-modeline)
