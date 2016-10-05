@@ -3,6 +3,10 @@
 ;;; Setup EVIL MODE and related packages
 
 ;;; Code:
+
+;; comand same as ctrl
+(setq mac-command-modifier 'C)
+
 (require 'use-package)
 (use-package evil
   :ensure t
@@ -76,7 +80,7 @@
 
     "Helm-projectile bindings (evil-normal)"
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
-    (define-key evil-motion-state-map (kbd "C-M-p") 'helm-projectile-switch-project)
+    (define-key evil-motion-state-map (kbd "C-O") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "C-a") 'helm-ag)))
 
 ;; Evil-Leader
