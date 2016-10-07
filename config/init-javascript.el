@@ -15,6 +15,10 @@
 (use-package nodejs-repl
   :ensure t)
 
+
+(use-package skewer-mode
+  :ensure t)
+
 ;; Type script
 
 (provide 'init-javascript)
