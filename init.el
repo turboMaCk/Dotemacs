@@ -34,6 +34,7 @@
     (load "~/.emacs.d/config/init-web.el")
     (load "~/.emacs.d/config/init-javascript.el")
     (load "~/.emacs.d/config/init-elm.el")
+    (load "~/.emacs.d/config/init-haskell.el")
     (load "~/.emacs.d/config/init-ruby.el")
     (load "~/.emacs.d/config/init-markdown.el")
     (load "~/.emacs.d/config/init-elixir")

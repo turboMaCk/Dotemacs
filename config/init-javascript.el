@@ -19,6 +19,9 @@
 (use-package skewer-mode
   :ensure t)
 
+(use-package npm-mode
+  :ensure t)
+
 ;; Type script
 
 (provide 'init-javascript)
