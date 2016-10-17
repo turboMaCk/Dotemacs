@@ -1,8 +1,10 @@
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+
+
+;;; Code:
 (package-initialize)
 
 (setq user-full-name "Marek Fajkus"
@@ -13,7 +15,7 @@
  'after-init-hook
  '(lambda ()
 
-    "Basics"
+    "Basic Inits"
     (load "~/.emacs.d/config/init-packages.el")
     (load "~/.emacs.d/config/init-utils.el")
     (load "~/.emacs.d/config/init-osx.el")
@@ -21,16 +23,17 @@
     (load "~/.emacs.d/config/init-term.el")
     (load "~/.emacs.d/config/init-modeline.el")
     (load "~/.emacs.d/config/init-interface.el")
-    (load "~/.emacs.d/config/init-yasnippet.el")
-    (load "~/.emacs.d/config/init-org.el")
 
-    "Controlls"
+    "Essentials"
     (load "~/.emacs.d/config/init-evil.el")
     (load "~/.emacs.d/config/init-helm.el")
     (load "~/.emacs.d/config/init-auto-complete.el")
+    (load "~/.emacs.d/config/init-magit.el")
+    (load "~/.emacs.d/config/init-org.el")
+    (load "~/.emacs.d/config/init-yasnippet.el")
+    (load "~/.emacs.d/config/init-linting.el")
 
     "Languages support"
-    (load "~/.emacs.d/config/init-linting.el")
     (load "~/.emacs.d/config/init-web.el")
     (load "~/.emacs.d/config/init-javascript.el")
     (load "~/.emacs.d/config/init-elm.el")

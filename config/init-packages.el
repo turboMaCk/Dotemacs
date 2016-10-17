@@ -22,7 +22,6 @@
     evil
     evil-leader
     evil-commentary
-    evil-magit
     key-chord
     helm
     helm-rails
@@ -32,6 +31,7 @@
     helm-ag
     neotree
     magit
+    evil-magit
     seti-theme
     auto-complete
     etags
@@ -41,7 +41,6 @@
     ember-mode
     handlebars-mode
     autopair
-    magit
     ) "a list of packages to ensure are installed at launch.")
 
 
