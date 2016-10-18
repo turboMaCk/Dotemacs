@@ -120,6 +120,15 @@
     (define-key ac-mode-map (kbd "C-j") 'ac-next)
     (define-key ac-mode-map (kbd "C-k") 'ac-previous)))
 
+;; Magit
+(use-package magit
+  :ensure t
+  :config
+  (progn
+
+    "Bind magit to C-x g"
+    (define-key evil-normal-state-map (kbd "C-x g") 'magit-status)))
+
 ;; Neotree
 (use-package neotree
   :ensure t
