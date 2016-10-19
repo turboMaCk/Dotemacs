@@ -77,6 +77,6 @@
   (progn
     (nyan-mode)
     (nyan-start-animation)
-    (nyan-wavy-trail)))
+    (nyan-toggle-wavy-trail)))
 
 ;;; twilight-theme.el ends here

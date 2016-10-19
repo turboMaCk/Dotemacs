@@ -26,6 +26,8 @@
         (set-face-background 'mode-line-state-face (car color))
         (set-face-foreground 'mode-line-filename-face (car color))))))
 
+(load-theme 'twilight-theme t)
+
 ;; Mode line setup
 (setq-default
  mode-line-format
