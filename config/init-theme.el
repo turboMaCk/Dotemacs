@@ -70,13 +70,25 @@
 
 (provide-theme 'twilight)
 
+;; (set-face-attribute 'mode-line-inactive nil :background "grey15" :foreground "white")
+;;; Nyan mode
 (require 'use-package)
 (use-package nyan-mode
   :ensure t
   :init
   (progn
+    "setup nyan mode"
     (nyan-mode)
     (nyan-start-animation)
     (nyan-toggle-wavy-trail)))
 
+;;; setup line spacing
+(setq-default line-spacing 2)
+(setq-default left-fringe-width  5)
+(setq-default right-fringe-width  2)
+
+(setq linum-format " %d ")
+(frame-parameter (make-frame '((border-width . 5))) 'border-width)
+
+(set-frame-parameter (selected-frame) 'internal-border-width 0)
 ;;; twilight-theme.el ends here
