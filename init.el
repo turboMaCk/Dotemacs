@@ -21,7 +21,8 @@
     (load "~/.emacs.d/config/init-osx.el")
     (load "~/.emacs.d/config/init-core.el")
     (load "~/.emacs.d/config/init-term.el")
-    (load "~/.emacs.d/config/init-modeline.el")
+    ;; (load "~/.emacs.d/config/init-modeline.el")
+    (load "~/.emacs.d/config/init-theme.el")
     (load "~/.emacs.d/config/init-interface.el")
     (load "~/.emacs.d/config/init-linting.el")
 

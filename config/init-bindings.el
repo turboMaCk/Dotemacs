@@ -127,7 +127,7 @@
   (progn
 
     "Bind magit to C-x g"
-    (define-key evil-normal-state-map (kbd "C-x g") 'magit-status)))
+    (define-key evil-normal-state-map (kbd "C-g") 'magit-status)))
 
 ;; Neotree
 (use-package neotree

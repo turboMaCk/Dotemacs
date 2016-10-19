@@ -1,6 +1,6 @@
 (require 'init-evil)
-(require 'seti-theme)
-(load-theme 'seti t)
+;; (require 'seti-theme)
+;; (load-theme 'seti t)
 
 ;; Colored delimiters
 (require-package 'rainbow-delimiters)
