@@ -7,7 +7,7 @@
   :ensure t)
 
 (use-package cider
-  :esure t)
+  :ensure t)
 (use-package flycheck-clojure
   :ensure t)
 
