@@ -48,18 +48,20 @@
 
 ; Overload shifts so that they don't lose the selection
 ; source: http://superuser.com/questions/684540/evil-mode-evil-shift-left-loses-selection
-(define-key evil-visual-state-map (kbd ">") 'djoyner/evil-shift-right-visual)
-(define-key evil-visual-state-map (kbd "<") 'djoyner/evil-shift-left-visual)
-(define-key evil-visual-state-map [tab] 'djoyner/evil-shift-right-visual)
-(define-key evil-visual-state-map [S-tab] 'djoyner/evil-shift-left-visual)
+(define-key evil-visual-state-map (kbd ">") 'my/evil-shift-right-visual)
+(define-key evil-visual-state-map (kbd "<") 'my/evil-shift-left-visual)
+(define-key evil-visual-state-map [tab] 'my/evil-shift-right-visual)
+(define-key evil-visual-state-map [S-tab] 'my/evil-shift-left-visual)
 
-(defun djoyner/evil-shift-left-visual ()
+(defun my/evil-shift-left-visual ()
+  "Move selected block to left."
   (interactive)
   (evil-shift-left (region-beginning) (region-end))
   (evil-normal-state)
   (evil-visual-restore))
 
-(defun djoyner/evil-shift-right-visual ()
+(defun my/evil-shift-right-visual ()
+  "Move selected block to right."
   (interactive)
   (evil-shift-right (region-beginning) (region-end))
   (evil-normal-state)

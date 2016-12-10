@@ -6,8 +6,10 @@
 (use-package clojure-mode
   :ensure t)
 
-(require-package 'cider)
-(require-package 'flycheck-clojure)
+(use-package cider
+  :esure t)
+(use-package flycheck-clojure
+  :ensure t)
 
 (provide 'init-clojure)
 ;;; init-clojure.el ends here

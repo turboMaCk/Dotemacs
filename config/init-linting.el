@@ -16,31 +16,16 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Editor Config
-(require-package 'editorconfig)
-(editorconfig-mode)
+(use-package editorconfig
+  :ensure t
+  :init
+  (editorconfig-mode))
 
 ;; Flycheck
 (use-package flycheck
   :ensure t
   :init
   (global-flycheck-mode))
-
-;; (require-package 'flycheck)
-;; (after 'flycheck
-;; ;;   (setq flycheck-check-syntax-automatically '(save mode-enabled)
-;; ;;         flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers)
-;; ;;         flycheck-checkers (delq 'html-tidy flycheck-checkers)
-;; ;;         flycheck-standard-error-navigation nil)
-;;   (global-flycheck-mode))
-
-;; flycheck errors on a tooltip (doesnt work on console)
-;; (when (display-graphic-p (selected-frame))
-;;   (eval-after-load 'flycheck
-;;     '(custom-set-variables
-;;       '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
-
-;; (add-hook 'js-mode-hook
-;;           (lambda () (flycheck-mode t)))
 
 ;; Line ends
 (defun dos-file-endings-p ()

@@ -22,7 +22,8 @@
 (use-package npm-mode
   :ensure t)
 
-;; Type script
+(add-hook 'js-mode-hook
+          (lambda () (flycheck-mode t)))
 
 (provide 'init-javascript)
 ;;; init-javascript.el ends here
