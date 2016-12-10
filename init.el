@@ -37,6 +37,7 @@
     "Languages support"
     (load "~/.emacs.d/config/init-web.el")
     (load "~/.emacs.d/config/init-javascript.el")
+    (load "~/.emacs.d/config/init-typescript.el")
     (load "~/.emacs.d/config/init-elm.el")
     (load "~/.emacs.d/config/init-haskell.el")
     (load "~/.emacs.d/config/init-ruby.el")

@@ -20,13 +20,18 @@
 (editorconfig-mode)
 
 ;; Flycheck
-(require-package 'flycheck)
-(after 'flycheck
-;;   (setq flycheck-check-syntax-automatically '(save mode-enabled)
-;;         flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers)
-;;         flycheck-checkers (delq 'html-tidy flycheck-checkers)
-;;         flycheck-standard-error-navigation nil)
+(use-package flycheck
+  :ensure t
+  :init
   (global-flycheck-mode))
+
+;; (require-package 'flycheck)
+;; (after 'flycheck
+;; ;;   (setq flycheck-check-syntax-automatically '(save mode-enabled)
+;; ;;         flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers)
+;; ;;         flycheck-checkers (delq 'html-tidy flycheck-checkers)
+;; ;;         flycheck-standard-error-navigation nil)
+;;   (global-flycheck-mode))
 
 ;; flycheck errors on a tooltip (doesnt work on console)
 ;; (when (display-graphic-p (selected-frame))

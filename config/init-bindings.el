@@ -97,17 +97,17 @@
 
     "map leader keys"
     (evil-leader/set-key
-        "a" 'helm-ag
-        "t" 'my/toggle-term
-        "l" 'multi-term-next
-        "h" 'multi-term-prev
-        "p" 'helm-find-files
-        "x" 'helm-M-x
-        "m" 'helm-buffer-list
-        "r b" 'helm-bookmarks
-        "y" 'helm-show-kill-ring
-        "m" 'helm-buffers-list
-        "e" 'eval-last-sexp)))
+      "a" 'helm-ag
+      "t" 'my/toggle-term
+      "l" 'multi-term-next
+      "h" 'multi-term-prev
+      "p" 'helm-find-files
+      "x" 'helm-M-x
+      "m" 'helm-buffer-list
+      "r b" 'helm-bookmarks
+      "y" 'helm-show-kill-ring
+      "m" 'helm-buffers-list
+      "e" 'eval-last-sexp)))
 
 ;; autocomplete
 ;; TODO: C-k insert mode issue
@@ -139,17 +139,17 @@
 
     "neotree keys"
     (add-hook 'neotree-mode-hook
-        (lambda ()
-            (define-key evil-motion-state-local-map (kbd "TAB") 'neotree-enter)
-            (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
-            (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
-            (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
-            ;; (define-key evil-motion-state-local-map (kbd "C-l") 'my/neotree-hide)
-            (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
-                                                                :file-fn 'neo-open-file-vertical-split))
-            (define-key evil-motion-state-local-map (kbd "s") (neotree-make-executor
-                                                                :file-fn 'neo-open-file-horizontal-split))
-            'append))))
+              (lambda ()
+                (define-key evil-motion-state-local-map (kbd "v") (neotree-make-executor
+                                                                   :file-fn 'neo-open-file-vertical-split))
+                (define-key evil-motion-state-local-map (kbd "s") (neotree-make-executor
+                                                                   :file-fn 'neo-open-file-horizontal-split))
+                (define-key evil-motion-state-local-map (kbd "TAB") 'neotree-enter)
+                (define-key evil-motion-state-local-map (kbd "RET") 'neotree-enter)
+                (define-key evil-motion-state-local-map (kbd "q") 'neotree-hide)
+                (define-key evil-motion-state-local-map (kbd "C-h") 'neotree-hidden-file-toggle)
+                ;; (define-key evil-motion-state-local-map (kbd "C-l") 'my/neotree-hide)
+                'append))))
 
 (provide 'init-bindings)
 ;;; init-bindings.el ends here
