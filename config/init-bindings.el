@@ -63,11 +63,11 @@
     (define-key helm-map (kbd "C-k") 'helm-previous-line)
 
     "Force emacs to use helm"
-    (global-set-key (kbd "M-x") 'helm-M-x)
-    (global-set-key (kbd "C-x b") 'helm-buffers-list)
-    (global-set-key (kbd "C-x r b") 'helm-bookmarks)
-    (global-set-key (kbd "C-x y") 'helm-show-kill-ring)
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)))
+    (define-key evil-motion-state-map (kbd "M-x") 'helm-M-x)
+    (define-key evil-motion-state-map (kbd "C-x b") 'helm-buffers-list)
+    (define-key evil-motion-state-map (kbd "C-x r b") 'helm-bookmarks)
+    (define-key evil-motion-state-map (kbd "C-x y") 'helm-show-kill-ring)
+    (define-key evil-motion-state-map (kbd "C-x C-f") 'helm-find-files)))
 
 (use-package helm-ag
   :ensure t)
@@ -80,7 +80,7 @@
 
     "Helm-projectile bindings (evil-normal)"
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
-    (define-key evil-motion-state-map (kbd "C-O") 'helm-projectile-switch-project)
+    (define-key evil-motion-state-map (kbd "C-o") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "C-a") 'helm-ag)))
 
 ;; Evil-Leader
