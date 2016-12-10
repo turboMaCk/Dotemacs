@@ -63,7 +63,7 @@
     (define-key helm-map (kbd "C-k") 'helm-previous-line)
 
     "Force emacs to use helm"
-    (define-key evil-motion-state-map (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "M-x") 'helm-M-x)
     (define-key evil-motion-state-map (kbd "C-x b") 'helm-buffers-list)
     (define-key evil-motion-state-map (kbd "C-x r b") 'helm-bookmarks)
     (define-key evil-motion-state-map (kbd "C-x y") 'helm-show-kill-ring)
