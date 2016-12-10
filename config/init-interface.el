@@ -11,6 +11,8 @@
 (require-package 'color-identifiers-mode)
 (global-color-identifiers-mode)
 (diminish 'color-identifiers-mode)
+(setenv "DICTIONARY" "en_GB")
+(setq ispell-program-name "aspell")
 
 (global-hl-line-mode t)
 (provide 'init-interface)
