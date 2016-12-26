@@ -1,0 +1,352 @@
+#+TITLE: turbo_MaCk's Evil Emacs
+#+AUTHOR: Marek Fajkus
+#+EMAIL: marek.faj@gmail.com
+
+This is my Emacs configuration I'm sharing with world as a literate program containing some basics explanation
+and my evaluation on experience I have white maintaining Emacs Operating System.
+
+I'm using [[][Cask]] for managing my packages. In past I was using plain ~package.el~ API in elisp
+as well as [[][use-package]] and custom lisp macro for dependencies management.
+
+However from my experience neither of this scales well as your configuration grows.
+To be honest while re-evaluating this I actually think that my original solution - using ~package.el~
+API directly - was the best of these. Anyway I believe Cask will be rock solid solution which will
+scale for years.
+
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Setup User Info
+
+This is to setup user. *This is probably first think you want to change in your fork.*
+
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Marek Fajkus"
+      user-mail-address "marek.faj@gmail.com")
+#+END_SRC
+
+** Core configuration
+
+These are one of the most important settings for Emacs' core and GUI.
+
+Start Emacs server if it's not running. This allows you to use ~emacsclient [filename]~ to attach to already running Emacs.
+
+#+BEGIN_SRC emacs-lisp
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+#+END_SRC
+
+Disable dummy parts of GUI like scroll-bars.
+
+#+BEGIN_SRC emacs-lisp
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (display-graphic-p)
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
+#+END_SRC
+
+start scratch in text mode (usefull to get a faster Emacs load time
+because it avoids autoloads of elisp modes)
+
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(setq initial-major-mode 'text-mode)
+(if (display-graphic-p)
+  "Show manu bar mode in GUI but disable it in terminal"
+
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode t))
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
+#+END_SRC
+
+Start scratch in text mode (usefull to get a faster Emacs load time
+because it avoids autoloads of elisp modes)
+
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode 'text-mode)
+#+END_SRC
+
+Show Line numbers in programming mode.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'linum-mode)
+#+END_SRC
+
+Setup fringes (spaces around windows).
+
+#+BEGIN_SRC emacs-lisp
+(when (display-graphic-p)
+  (lambda()
+    (fringe-mode 2)
+    (setq-default left-fringe-width 12)
+    (setq-default right-fringe-width 0)))
+(setq-default truncate-lines t)
+(setq line-spacing 2)
+#+END_SRC
+
+Setup garbage collection to gain some extra performance.
+
+#+BEGIN_SRC emacs-lisp
+(run-with-idle-timer (* 60 3) t #'garbage-collect)
+#+END_SRC
+
+Setup compilation.
+
+#+BEGIN_SRC emacs-lisp
+(setq-default compilation-always-kill t)
+(setq compilation-ask-about-save nil)
+(add-hook 'compilation-filter-hook
+	  (lambda ()
+	    (when (eq major-mode 'compilation-mode)
+	      (require 'ansi-color)
+	      (let ((inhibit-read-only t))
+		(ansi-color-applu-on-region (point-min) (point-max))))))
+#+END_SRC
+
+Setup Directories for backups etc.
+
+#+BEGIN_SRC emacs-lisp
+;; Bookamrks
+(setq-default bookmark-default-file "~/.emacs.d/bookmakrs")
+(setq-default bookmark-save-flag 1)
+
+;; Backups
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+;; History
+(setq-default savehist-file "~/.emacs.d/savehist")
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq-default savehist-save-minibuffer-history 1)
+(setq-default savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
+
+;; Edif
+(setq-default ediff-split-window-function 'split-window-horizontally)
+(setq-default ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; re-builder
+(setq-default reb-re-syntax 'string) ;; fix backslash madness
+#+END_SRC
+
+[[https://www.emacswiki.org/emacs/WinnerMode][winner mode]]
+
+#+BEGIN_SRC emacs-lisp
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
+#+END_SRC
+
+Using midnight mode to clean up old buffers with periodically.
+
+#+BEGIN_SRC emacs-lisp
+(require 'midnight)
+(midnight-delay-set 'midnight-delay 0)
+#+END_SRC
+
+Setup essential packages.
+
+#+BEGIN_SRC emacs-lisp
+;; saveplace
+(require 'saveplace)
+(setq-default save-place t)
+
+;; smooth-scrolling
+(require 'smooth-scrolling)
+
+;; recentf
+(require 'recentf)
+(recentf-mode t)
+(setq recentf-save-file "~/.emacs.d/recentf")
+(setq recentf-max-saved-items 1000)
+(setq recentf-max-menu-items 500)
+(setq recentf-auto-cleanup 300)
+(add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+(run-with-timer 1800 1800 'recentf-save-list)
+
+;; pcomplete
+(setq-default pcomplete-ignore-case t)
+
+;; imenu
+(setq-default imenu-auto-rescan t)
+
+;; narrowing
+(put 'narrow-to-region 'disabled nil)
+
+;; dired
+(add-hook 'dired-load-hook
+          (function (lambda () (load "dired-x"))))
+
+;; ibuffer
+(setq-default ibuffer-expert t)
+(setq-default ibuffer-show-empty-filter-groups nil)
+(add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
+#+END_SRC
+
+Better scrolling
+
+#+BEGIN_SRC emacs-lisp
+(setq scroll-conservatively 9999
+      scroll-preserve-screen-position t
+      scroll-margin 3)
+#+END_SRC
+
+Better names for duplicated buffers
+
+#+BEGIN_SRC emacs-lisp
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward
+      uniquify-separator "/"
+      uniquify-ignore-buffers-re "^\\*" ; leave special buffers alone
+      uniquify-after-kill-buffer-p t)
+#+END_SRC
+
+Prevent killing of scratch buffer
+
+#+BEGIN_SRC emacs-lisp
+(defun my-do-not-kill-scratch-buffer ()
+    "PREVENT KILLING SCRATCH BUFFERS!"
+    (if (member (buffer-name (current-buffer))
+                '("*scratch*" "*Messages*" "*Require Times*"))
+      (progn
+        (bury-buffer)
+        nil)
+    t))
+
+(add-hook 'kill-buffer-query-functions 'my-do-not-kill-scratch-buffer)
+#+END_SRC
+
+Short answers
+
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+UTF-8 all the things!
+
+#+BEGIN_SRC emacs-lisp
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+#+END_SRC
+
+Stay sane please
+
+#+BEGIN_SRC emacs-lisp
+(setq ring-bell-function 'ignore)
+(setq sentence-end-double-space nil)
+(setq delete-by-moving-to-trash t)
+(setq mark-ring-max 64)
+(setq global-mark-ring-max 128)
+(setq save-interprogram-paste-before-kill t)
+(setq create-lockfiles nil)
+(setq echo-keystrokes 0.01)
+(setq initial-major-mode 'emacs-lisp-mode)
+(setq eval-expression-print-level nil)
+(setq-default indent-tabs-mode nil)
+
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-echo-area-message t)
+(setq inhibit-startup-message t)
+
+(xterm-mouse-mode t)
+(which-function-mode t)
+(blink-cursor-mode -1)
+(global-auto-revert-mode t)
+(electric-indent-mode t)
+(transient-mark-mode t)
+(delete-selection-mode t)
+(random t) ;; seed
+#+END_SRC
+
+** Utility Functions
+
+Custom useful functions I'm using on various places (mostly binded to shortcuts)
+
+#+BEGIN_SRC emacs-lisp
+(defun turbo_mack/minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+
+(defun turbo_mack/vsplit-and-skip()
+  "split verticaly and skip to new window."
+
+  (interactive)
+  (evil-window-vsplit)
+  (windmove-right))
+
+(defun turbo_mack/split-and-skip()
+  "split horizontaly and skip to new window."
+
+  (interactive)
+  (evil-window-split)
+  (windmove-down))
+
+(defun turbo_mack/toggle-term()
+  "Splits window and open terminal."
+
+  (interactive)
+  (split-window-below)
+  (windmove-down)
+  (term "/bin/zsh"))
+
+(defun turbo_mack/rotate-windows-helper(x d)
+  (if (equal (cdr x) nil) (set-window-buffer (car x) d)
+    (set-window-buffer (car x) (window-buffer (cadr x))) (turbo_mack/rotate-windows-helper (cdr x) d)))
+
+(defun turbo_mack/rotate-windows ()
+  "Rotate Emacs windows."
+
+  (interactive)
+  (turbo_mack/rotate-windows-helper (window-list) (window-buffer (car (window-list))))
+  (select-window (car (last (window-list)))))
+#+END_SRC
+
+** Color Theme
+
+This loads my customized version of twilight theme.
+
+#+BEGIN_SRC
+(load
+     (expand-file-name "init-theme.el"
+                user-emacs-directory)))
+#+END_SRC
+
+** OS specific configuration
+
+All OS specific settings should go here.
+
+*** Macintosh
+
+Setup environment and exec path. This is using ~exec-path-from-shell~ package.
+
+#+BEGIN_SRC emacs-lisp
+(when (memq window-system '(mac ns))
+          (exec-path-from-shell-initialize))
+#+END_SRC
+
+Clipboard mode depend on ~pbcopy~ binary.
+
+> There is some weird race condition in ~osx-clip-board-mode~ initialization.
+
+#+BEGIN_SRC emacs-lisp
+;; Attempting to enable this mode an a non-OS-X system or in a graphical Emacs will do nothing,
+;; so it should be safe to enable it unconditionally even if you share your configuration between multiple machines.
+(when (fboundp 'osx-clip-board-mode)
+          (osx-clip-board-mode t))
+#+END_SRC
