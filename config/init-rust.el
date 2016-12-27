@@ -1,2 +1,3 @@
 (require 'use-package)
-(use-package rust-mode)
+(use-package rust-mode
+  :ensure t)
