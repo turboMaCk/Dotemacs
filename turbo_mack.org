@@ -5,8 +5,8 @@
 This is my Emacs configuration I'm sharing with world as a literate program containing some basics explanation
 and my evaluation on experience I have white maintaining Emacs Operating System.
 
-I'm using [[][Cask]] for managing my packages. In past I was using plain ~package.el~ API in elisp
-as well as [[][use-package]] and custom lisp macro for dependencies management.
+I'm using [[https://github.com/cask/cask][Cask]] for managing my packages. In past I was using plain ~package.el~ API in elisp
+as well as [[https://github.com/jwiegley/use-package][use-package]] and custom lisp macro for dependencies management.
 
 However from my experience neither of this scales well as your configuration grows.
 To be honest while re-evaluating this I actually think that my original solution - using ~package.el~
