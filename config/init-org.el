@@ -34,6 +34,7 @@
 (defun babel-confirm (flag)
   "Report the setting of org-confirm-babel-evaluate.
 If invoked with C-u, toggle the setting"
+
   (interactive "P")
   (if (equal flag '(4))
       (setq org-confirm-babel-evaluate (not org-confirm-babel-evaluate)))

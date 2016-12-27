@@ -62,7 +62,7 @@
 (run-with-idle-timer (* 60 3) t #'garbage-collect)
 
 ;; pcomplete
-(setq pcomplete-ignore-case t)
+(setq-default pcomplete-ignore-case t)
 
 ;; imenu
 (setq-default imenu-auto-rescan t)
@@ -75,7 +75,7 @@
           (function (lambda () (load "dired-x"))))
 
 ;; compile
-(setq compilation-always-kill t)
+(setq-default compilation-always-kill t)
 (setq compilation-ask-about-save nil)
 (add-hook 'compilation-filter-hook
 	  (lambda ()
@@ -85,8 +85,8 @@
 		(ansi-color-applu-on-region (point-min) (point-max))))))
 
 ;; Bookamrks
-(setq bookmark-default-file "~/.emacs.d/bookmakrs")
-(setq bookmark-save-flag 1)
+(setq-default bookmark-default-file "~/.emacs.d/bookmakrs")
+(setq-default bookmark-save-flag 1)
 
 ;; Backups
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
@@ -96,22 +96,22 @@
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 ;; History
-(setq savehist-file "~/.emacs.d/savehist")
+(setq-default savehist-file "~/.emacs.d/savehist")
 (savehist-mode 1)
 (setq history-length t)
 (setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history 1)
-(setq savehist-additional-variables
+(setq-default savehist-save-minibuffer-history 1)
+(setq-default savehist-additional-variables
       '(kill-ring
         search-ring
         regexp-search-ring))
 
 ;; Edif
-(setq ediff-split-window-function 'split-window-horizontally)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq-default ediff-split-window-function 'split-window-horizontally)
+(setq-default ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; re-builder
-(setq reb-re-syntax 'string) ;; fix backslash madness
+(setq-default reb-re-syntax 'string) ;; fix backslash madness
 
 ;; Winner mode
 (when (fboundp 'winner-mode)
@@ -122,8 +122,8 @@
 (midnight-delay-set 'midnight-delay 0)
 
 ;; ibuffer
-(setq ibuffer-expert t)
-(setq ibuffer-show-empty-filter-groups nil)
+(setq-default ibuffer-expert t)
+(setq-default ibuffer-show-empty-filter-groups nil)
 (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
 
 ;; better scrolling
