@@ -39,22 +39,10 @@ Disable dummy parts of GUI like scroll-bars.
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-  (if (display-graphic-p)
-    (when (fboundp 'menu-bar-mode) (menu-bar-mode t))
-    (when (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
-#+END_SRC
-
-start scratch in text mode (usefull to get a faster Emacs load time
-because it avoids autoloads of elisp modes)
-
-#+BEGIN_SRC emacs-lisp
-  (menu-bar-mode -1)
-  (setq initial-major-mode 'text-mode)
-  (if (display-graphic-p)
-    "Show manu bar mode in GUI but disable it in terminal"
-
-    (when (fboundp 'menu-bar-mode) (menu-bar-mode t))
-    (when (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
+  (when (fboundp 'menu-bar-mode)
+    (if (display-graphic-p)
+        (menu-bar-mode t)
+      (menu-bar-mode -1)))
 #+END_SRC
 
 Start scratch in text mode (usefull to get a faster Emacs load time
@@ -74,7 +62,7 @@ Setup fringes (spaces around windows).
 
 #+BEGIN_SRC emacs-lisp
   (when (display-graphic-p)
-    (lambda()
+    (lambda ()
       (fringe-mode 2)
       (setq-default left-fringe-width 12)
       (setq-default right-fringe-width 0)))
@@ -211,7 +199,7 @@ Better names for duplicated buffers
 Prevent killing of scratch buffer
 
 #+BEGIN_SRC emacs-lisp
-  (defun my-do-not-kill-scratch-buffer ()
+  (defun turbo_mack/do-not-kill-scratch-buffer ()
       "PREVENT KILLING SCRATCH BUFFERS!"
 
       (if (member (buffer-name (current-buffer))
@@ -221,7 +209,7 @@ Prevent killing of scratch buffer
           nil)
       t))
 
-  (add-hook 'kill-buffer-query-functions 'my-do-not-kill-scratch-buffer)
+  (add-hook 'kill-buffer-query-functions 'turbo_mack/do-not-kill-scratch-buffer)
 #+END_SRC
 
 Short answers
@@ -269,56 +257,6 @@ Stay sane please
   (random t) ;; seed
 #+END_SRC
 
-** Utility Functions
-
-Custom useful functions (mostly binded to shortcuts)
-
-#+BEGIN_SRC emacs-lisp
-  (defun turbo_mack/minibuffer-keyboard-quit ()
-    "Abort recursive edit.
-  In Delete Selection mode, if the mark is active, just deactivate it;
-  then it takes a second \\[keyboard-quit] to abort the minibuffer."
-
-    (interactive)
-    (if (and delete-selection-mode transient-mark-mode mark-active)
-        (setq deactivate-mark  t)
-      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-      (abort-recursive-edit)))
-
-  (defun turbo_mack/vsplit-and-skip()
-    "split verticaly and skip to new window."
-
-    (interactive)
-    (evil-window-vsplit)
-    (windmove-right))
-
-  (defun turbo_mack/split-and-skip()
-    "split horizontaly and skip to new window."
-
-    (interactive)
-    (evil-window-split)
-    (windmove-down))
-
-  (defun turbo_mack/toggle-term()
-    "Splits window and open terminal."
-
-    (interactive)
-    (split-window-below)
-    (windmove-down)
-    (term "/bin/zsh"))
-
-  (defun turbo_mack/rotate-windows-helper(x d)
-    (if (equal (cdr x) nil) (set-window-buffer (car x) d)
-      (set-window-buffer (car x) (window-buffer (cadr x))) (turbo_mack/rotate-windows-helper (cdr x) d)))
-
-  (defun turbo_mack/rotate-windows ()
-    "Rotate Emacs windows."
-
-    (interactive)
-    (turbo_mack/rotate-windows-helper (window-list) (window-buffer (car (window-list))))
-    (select-window (car (last (window-list)))))
-#+END_SRC
-
 ** Color Theme
 
 This loads my customized version of twilight theme.
@@ -335,7 +273,7 @@ Making sense of love to all the sweet things on internet.
 
 #+BEGIN_SRC emacs-lisp
   (require 'nyan-mode)
-  (defun init-nyan-mode-sweetness ()
+  (defun turbo_mack/init-nyan-mode ()
     "Starts nyan mode and setup animation nad wavy trails."
 
     (nyan-mode t)
@@ -344,7 +282,8 @@ Making sense of love to all the sweet things on internet.
 
   (when (display-graphic-p)
     "Nyan mode only in gui"
-    (init-nyan-mode-sweetness))
+
+    (turbo_mack/init-nyan-mode))
 #+END_SRC
 
 Theme agnostic UI settings
@@ -413,273 +352,19 @@ Line ends sanitization.
 
 #+BEGIN_SRC emacs-lisp
 ;; Line ends
-(defun dos-file-endings-p ()
+(defun turbo_mack/dos-file-endings-p ()
   "Check if dos enconding is used."
 
   (string-match "dos" (symbol-name buffer-file-coding-system)))
 
-(defun find-file-check-line-endings ()
+(defun turbo_mack/find-file-check-line-endings ()
   "Force UNIX line endings."
 
-  (when (dos-file-endings-p)
+  (when (turbo_mack/dos-file-endings-p)
     (set-buffer-file-coding-system 'undecided-unix)
     (set-buffer-modified-p nil)))
 
-(add-hook 'find-file-hook 'find-file-check-line-endings)
-#+END_SRC
-
-** Linting
-
-This configuration is mostly around awesome ~fly-check-mode~.
-
-#+BEGIN_SRC emacs-lisp
-(require 'flycheck)
-(global-flycheck-mode t)
-#+END_SRC
-
-** Auto complete
-
-I have a history of using various text editor. I was actually never big fan of IDEs mostly because
-my primary focus was on scripting languages. Even though I have used Netbeans and similar I never really stick to it.
-However as vimmer and now Emacs user my editors configuration grows with me over time and because I'm working
-on larger and larger projects all this additional stuff make something I end up with almost full IDE like environment.
-Auto completion is big part of this setup which makes my life a bit easier.
-
-I'm using auto complete mode. However I'm thinking about switching to company since it turned out that it's bit more supported.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'auto-complete)
-  (require 'auto-complete-config)
-
-  (defun init-auto-complete ()
-    "Setup auto compltete mode."
-
-    (setq ac-auto-show-menu t)
-    (setq ac-auto-start t)
-
-    (setq ac-quick-help-delay 0.3)
-    (setq ac-quick-help-height 30)
-    (setq ac-show-menu-immediately-on-auto-complete t))
-
-  (init-auto-complete)
-
-  (defun init-ac-etags ()
-    "Setup auto completion for etags."
-    (setq ac-etags-requires t)
-    (ac-config-default)
-    (ac-etags-setup))
-
-  (init-ac-etags)
-#+END_SRC
-
-** Evil
-
-Vimmify Emacs. Sorry folks. I'm on dark side of power.
-
-[[http://mediaserver.dwpub.com/press-release/39345/Vader_Minifig.png]]
-
-Previously I was using evil heavily. Anyway since I've spend some time using Emacs as my default editor
-I start reevaluating this. Actually relaying on evil much is not the best way to live within Emacs.
-Vim is far simpler software than Emacs is and using vim way exclusively don't scale as much as Emacs do.
-This is why *I've decided to exclude ~evil-leader~ while rewriting my configuration*.
-It really doesn't feel like first class thing within Emacs and I try to force myself to using
-Emacs way of doing things by default rather then bending every key map I can.
-
-#+BEGIN_SRC emacs-lisp
-  (defun init-evil ()
-    "Setup evil... Very magicaly."
-
-    (evil-mode t)
-    (setq evil-search-module 'evil-search)
-    (setq evil-magic 'very-magic))
-
-  (init-evil)
-
-  (defun map-basic-evil-commands ()
-    "Setup W/Q commands."
-
-    (evil-ex-define-cmd "W[rite]" 'evil-write)
-    (evil-ex-define-cmd "Q[uit]" 'evil-quit)
-    (evil-ex-define-cmd "wq[rite]" 'evil-write)
-    (evil-ex-define-cmd "Wq[rite]" 'evil-write)
-    (evil-ex-define-cmd "WQ[rite]" 'evil-write))
-
-  (map-basic-evil-commands)
-#+END_SRC
-
-I'm using evil commentary a lot. Super useful for toggling comments in code.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'evil-commentary)
-  (evil-commentary-mode t)
-#+END_SRC
-
-Other useful evil extensions:
-
-#+BEGIN_SRC emacs-lisp
-  (require 'evil-surround)
-  (global-evil-surround-mode t)
-
-  (require 'evil-visualstar)
-  (global-evil-visualstar-mode t)
-#+END_SRC
-
-I'm using Tmux a lot in terminal. Historically my workflow was heavily based on vim running with tmux and sometimes
-I tend do some operation that way even though mainly I'm tying to stay within Emacs.
-Anyway smooth integration with Tmux is still important to me. ~NAvigate~ package will do the trick.
-
-#+BEGIN_SRC emacs-lisp
-  ;; This package doesn't need to be init manually.
-  (require 'navigate)
-#+END_SRC
-
-This is to set some interface reflections of evil state.
-
-#+BEGIN_SRC emacs-lisp
-  (setq evil-emacs-state-cursor '("red" box))
-  (setq evil-normal-state-cursor '("green" box))
-  (setq evil-visual-state-cursor '("orange" box))
-  (setq evil-insert-state-cursor '("red" bar))
-  (setq evil-replace-state-cursor '("red" bar))
-  (setq evil-operator-state-cursor '("red" hollow))
-#+END_SRC
-
-By default re-indenting blocks in evil is kind of nightmare. This will fix it:
-
-#+BEGIN_SRC emacs-lisp
-  (defun turbo_mack/evil-shift-left-visual ()
-    "Move selected block to left."
-
-    (interactive)
-    (evil-shift-left (region-beginning) (region-end))
-    (evil-normal-state)
-    (evil-visual-restore))
-
-  (defun turbo_mack/evil-shift-right-visual ()
-    "Move selected block to right."
-
-    (interactive)
-    (evil-shift-right (region-beginning) (region-end))
-    (evil-normal-state)
-    (evil-visual-restore))
-
-  (define-key evil-visual-state-map (kbd ">") 'turbo_mack/evil-shift-right-visual)
-  (define-key evil-visual-state-map (kbd "<") 'turbo_mack/evil-shift-left-visual)
-  (define-key evil-visual-state-map [tab] 'turbo_mack/evil-shift-right-visual)
-  (define-key evil-visual-state-map [S-tab] 'turbo_mack/evil-shift-left-visual)
-#+END_SRC
-
-** Helm & Projectile
-
-Helm is another important plugin I rely quite heavily on. It basically provides nice fuzzy search and auto complete
-interface for various things. Projectile on the other hand setup project environment based on GIT settings in current
-folder. Together Helm & Projectile are the main ways to file management and project navigation in my setup.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'helm)
-  (require 'helm-config)
-
-  (defun init-helm ()
-    "Init helm."
-
-    (helm-mode t)
-    (helm-autoresize-mode t)
-    ;; This will set header bg color to dark gray
-    (set-face-attribute 'helm-source-header nil :background "#141414" :foreground "#f8f8f8"))
-
-  (init-helm)
-
-  (require 'projectile)
-
-  (defun init-projectile ()
-    "Initialize projectlile."
-
-    (setq projectile-enable-caching -1)
-    (projectile-global-mode t))
-
-  (init-projectile)
-
-  ;; Setup Helm-Projectile integration
-  (require 'helm-projectile)
-  (setq helm-projectile-fuzzy-match t)
-
-  (require 'helm-ag)
-#+END_SRC
-
-** Magit
-
-Magit is my favorite GIT interface of all time. This will setup Magit itself as well as its integration to evil.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'magit)
-  (require 'evil-magit)
-#+END_SRC
-
-** Org Mode
-
-Org mode is super fantastic. As I'm more fascinated with application of literate programming and reproducible research.
-I really fall in love with org-mode which is my tool of choice when it comes to exploring field as well as organizing stuff.
-Actually this whole configuration is one big org file.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'org)
-  (require 'ox)
-  (require 'ob)
-  (require 'flyspell)
-
-  ;; setup TODOs
-  (setq org-log-done t
-        org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
-        org-todo-keyword-faces '(("INPROGRESS" . (:foreground "blue" :weight bold))))
-
-  ;; setup spell-checking
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (flyspell-mode)))
-
-  ;; Grammar niceness
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (writegood-mode)))
-#+END_SRC
-
-Setup languages support for literate programming capabilities.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'ob-sh)
-  (require 'ob-emacs-lisp)
-  (require 'ob-ruby)
-  (require 'ob-js)
-  (require 'ob-typescript)
-  ;; ob-elm.el is part of this repository
-  (require 'ob-elm)
-  (require 'ob-haskell)
-  (require 'ob-C)
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((sh . t)
-     (emacs-lisp . t)
-     (ruby . t)
-     (js . t)
-     (typescript . t)
-     (elm . t)
-     (haskell . t)
-     (C . t)))
-
-  ;; disable confirmation of evaluation
-  (setq org-confirm-babel-evaluate nil)
-#+END_SRC
-
-*** TODO Fix SH integration
-
-** Yasnippet
-
-Honestly I never did get used to using snippets a lot. Anyway I'm keeping this as part of my configuration because
-I know it might be useful in future.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'yasnippet)
+(add-hook 'find-file-hook 'turbo_mack/find-file-check-line-endings)
 #+END_SRC
 
 ** Languages and Platforms
@@ -720,8 +405,9 @@ Typescript is far from being ideal language. Anyway I tend to use it over JS for
   (require 'typescript-mode)
   (require 'tide)
 
-  (defun init-tide-mode ()
+  (defun turbo_mack/init-tide-mode ()
     "Setup tide (typescript syntax checker)."
+
     (interactive)
     (tide-setup)
     (flycheck-mode t)
@@ -732,10 +418,10 @@ Typescript is far from being ideal language. Anyway I tend to use it over JS for
     ;; `M-x package-install [ret] company`
     (company-mode t))
 
-    (add-hook 'before-save-hook 'tide-format-before-save)
-    (add-hook 'typescript-mode-hook #'setup-tide-mode)
-    ;; format options
-    (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (add-hook 'typescript-mode-hook #'turbo_mack/init-tide-mode)
+  ;; format options
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 #+END_SRC
 
 *** Elm
@@ -835,6 +521,274 @@ When I can't use org I go for the markdown.
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 #+END_SRC
 
+** Other Tools
+
+This is collection of other Emacs based tools I'm using.
+
+*** RestClient
+
+Rest client is better than Postman.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'restclient)
+#+END_SRC
+
+** Linting
+
+This configuration is mostly around awesome ~fly-check-mode~.
+
+#+BEGIN_SRC emacs-lisp
+(require 'flycheck)
+(global-flycheck-mode t)
+#+END_SRC
+
+** Auto complete
+
+I have a history of using various text editor. I was actually never big fan of IDEs mostly because
+my primary focus was on scripting languages. Even though I have used Netbeans and similar I never really stick to it.
+However as vimmer and now Emacs user my editors configuration grows with me over time and because I'm working
+on larger and larger projects all this additional stuff make something I end up with almost full IDE like environment.
+Auto completion is big part of this setup which makes my life a bit easier.
+
+I'm using auto complete mode. However I'm thinking about switching to company since it turned out that it's bit more supported.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'auto-complete)
+  (require 'auto-complete-config)
+
+  (defun turbo_mack/init-auto-complete ()
+    "Setup auto compltete mode."
+
+    (setq ac-auto-show-menu t)
+    (setq ac-auto-start t)
+
+    (setq ac-quick-help-delay 0.3)
+    (setq ac-quick-help-height 30)
+    (setq ac-show-menu-immediately-on-auto-complete t))
+
+  (turbo_mack/init-auto-complete)
+
+  (defun turbo_mack/init-ac-etags ()
+    "Setup auto completion for etags."
+    (setq ac-etags-requires t)
+    (ac-config-default)
+    (ac-etags-setup))
+
+  (turbo_mack/init-ac-etags)
+#+END_SRC
+
+** Evil
+
+Vimmify Emacs. Sorry folks. I'm on dark side of power.
+
+[[http://mediaserver.dwpub.com/press-release/39345/Vader_Minifig.png]]
+
+Previously I was using evil heavily. Anyway since I've spend some time using Emacs as my default editor
+I start reevaluating this. Actually relaying on evil much is not the best way to live within Emacs.
+Vim is far simpler software than Emacs is and using vim way exclusively don't scale as much as Emacs do.
+This is why *I've decided to exclude ~evil-leader~ while rewriting my configuration*.
+It really doesn't feel like first class thing within Emacs and I try to force myself to using
+Emacs way of doing things by default rather then bending every key map I can.
+
+#+BEGIN_SRC emacs-lisp
+  (defun turbo_mack/init-evil ()
+    "Setup evil... Very magicaly."
+
+    (evil-mode t)
+    (setq evil-search-module 'evil-search)
+    (setq evil-magic 'very-magic))
+
+  (turbo_mack/init-evil)
+
+  (defun turbo_mack/map-basic-evil-commands ()
+    "Setup W/Q commands."
+
+    (evil-ex-define-cmd "W[rite]" 'evil-write)
+    (evil-ex-define-cmd "Q[uit]" 'evil-quit)
+    (evil-ex-define-cmd "wq[rite]" 'evil-write)
+    (evil-ex-define-cmd "Wq[rite]" 'evil-write)
+    (evil-ex-define-cmd "WQ[rite]" 'evil-write))
+
+  (turbo_mack/map-basic-evil-commands)
+#+END_SRC
+
+I'm using evil commentary a lot. Super useful for toggling comments in code.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-commentary)
+  (evil-commentary-mode t)
+#+END_SRC
+
+Other useful evil extensions:
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-surround)
+  (global-evil-surround-mode t)
+
+  (require 'evil-visualstar)
+  (global-evil-visualstar-mode t)
+#+END_SRC
+
+I'm using Tmux a lot in terminal. Historically my workflow was heavily based on vim running with tmux and sometimes
+I tend do some operation that way even though mainly I'm tying to stay within Emacs.
+Anyway smooth integration with Tmux is still important to me. ~NAvigate~ package will do the trick.
+
+#+BEGIN_SRC emacs-lisp
+  ;; This package doesn't need to be init manually.
+  (require 'navigate)
+#+END_SRC
+
+This is to set some interface reflections of evil state.
+
+#+BEGIN_SRC emacs-lisp
+  (setq evil-emacs-state-cursor '("red" box))
+  (setq evil-normal-state-cursor '("green" box))
+  (setq evil-visual-state-cursor '("orange" box))
+  (setq evil-insert-state-cursor '("red" bar))
+  (setq evil-replace-state-cursor '("red" bar))
+  (setq evil-operator-state-cursor '("red" hollow))
+#+END_SRC
+
+By default re-indenting blocks in evil is kind of nightmare. This will fix it:
+
+#+BEGIN_SRC emacs-lisp
+  (defun turbo_mack/evil-shift-left-visual ()
+    "Move selected block to left."
+
+    (interactive)
+    (evil-shift-left (region-beginning) (region-end))
+    (evil-normal-state)
+    (evil-visual-restore))
+
+  (defun turbo_mack/evil-shift-right-visual ()
+    "Move selected block to right."
+
+    (interactive)
+    (evil-shift-right (region-beginning) (region-end))
+    (evil-normal-state)
+    (evil-visual-restore))
+
+  (define-key evil-visual-state-map (kbd ">") 'turbo_mack/evil-shift-right-visual)
+  (define-key evil-visual-state-map (kbd "<") 'turbo_mack/evil-shift-left-visual)
+  (define-key evil-visual-state-map [tab] 'turbo_mack/evil-shift-right-visual)
+  (define-key evil-visual-state-map [S-tab] 'turbo_mack/evil-shift-left-visual)
+#+END_SRC
+
+** Helm & Projectile
+
+Helm is another important plugin I rely quite heavily on. It basically provides nice fuzzy search and auto complete
+interface for various things. Projectile on the other hand setup project environment based on GIT settings in current
+folder. Together Helm & Projectile are the main ways to file management and project navigation in my setup.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'helm)
+  (require 'helm-config)
+
+  (defun turbo_mack/init-helm ()
+    "Init helm."
+
+    (helm-mode t)
+    (helm-autoresize-mode t)
+    ;; This will set header bg color to dark gray
+    (set-face-attribute 'helm-source-header nil :background "#141414" :foreground "#f8f8f8"))
+
+  (turbo_mack/init-helm)
+
+  (require 'projectile)
+
+  (defun turbo_mack/init-projectile ()
+    "Initialize projectlile."
+
+    (setq projectile-enable-caching -1)
+    (projectile-global-mode t))
+
+  (turbo_mack/init-projectile)
+
+  ;; Setup Helm-Projectile integration
+  (require 'helm-projectile)
+  (setq helm-projectile-fuzzy-match t)
+
+  (require 'helm-ag)
+#+END_SRC
+
+** Magit
+
+Magit is my favorite GIT interface of all time. This will setup Magit itself as well as its integration to evil.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'magit)
+  (require 'evil-magit)
+#+END_SRC
+
+** Org Mode
+
+Org mode is super fantastic. As I'm more fascinated with application of literate programming and reproducible research.
+I really fall in love with org-mode which is my tool of choice when it comes to exploring field as well as organizing stuff.
+Actually this whole configuration is one big org file.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'org)
+  (require 'ox)
+  (require 'ob)
+  (require 'flyspell)
+
+  ;; setup TODOs
+  (setq org-log-done t
+        org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
+        org-todo-keyword-faces '(("INPROGRESS" . (:foreground "blue" :weight bold))))
+
+  ;; setup spell-checking
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (flyspell-mode)))
+
+  ;; Grammar niceness
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (writegood-mode)))
+#+END_SRC
+
+Setup languages support for literate programming capabilities.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ob-sh)
+  (require 'ob-emacs-lisp)
+  (require 'ob-ruby)
+  (require 'ob-js)
+  (require 'ob-typescript)
+  ;; ob-elm.el is part of this repository
+  (require 'ob-elm)
+  (require 'ob-haskell)
+  (require 'ob-C)
+  (require 'ob-restclient)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sh . t)
+     (emacs-lisp . t)
+     (ruby . t)
+     (js . t)
+     (typescript . t)
+     (elm . t)
+     (haskell . t)
+     (C . t)
+     (restclient . t)))
+
+  ;; disable confirmation of evaluation
+  (setq org-confirm-babel-evaluate nil)
+#+END_SRC
+
+*** TODO Fix SH integration
+
+** Yasnippet
+
+Honestly I never did get used to using snippets a lot. Anyway I'm keeping this as part of my configuration because
+I know it might be useful in future.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'yasnippet)
+#+END_SRC
+
 ** Bindings
 
 One of the most important parts is to bind all functionality to keys and glue it together.
@@ -844,6 +798,31 @@ This is exactly what this part is about.
 *** Window management
 
 #+BEGIN_SRC emacs-lisp
+  (defun turbo_mack/vsplit-and-skip()
+    "split verticaly and skip to new window."
+
+    (interactive)
+    (evil-window-vsplit)
+    (windmove-right))
+
+  (defun turbo_mack/split-and-skip()
+    "split horizontaly and skip to new window."
+
+    (interactive)
+    (evil-window-split)
+    (windmove-down))
+
+  (defun turbo_mack/rotate-windows-helper(x d)
+    (if (equal (cdr x) nil) (set-window-buffer (car x) d)
+      (set-window-buffer (car x) (window-buffer (cadr x))) (turbo_mack/rotate-windows-helper (cdr x) d)))
+
+  (defun turbo_mack/rotate-windows ()
+    "Rotate Emacs windows."
+
+    (interactive)
+    (turbo_mack/rotate-windows-helper (window-list) (window-buffer (car (window-list))))
+    (select-window (car (last (window-list)))))
+
   "Window navigation"
   (define-key evil-motion-state-map (kbd "C-h") 'windmove-left)
   (define-key evil-motion-state-map (kbd "C-j") 'windmove-down)
@@ -873,14 +852,25 @@ Actually I'm thinking more and more to switching to Emacs way and rather mapping
 even though I'm using ~q~ now for macro recording.
 
 #+BEGIN_SRC emacs-lisp
+  (defun turbo_mack/minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+  In Delete Selection mode, if the mark is active, just deactivate it;
+  then it takes a second \\[keyboard-quit] to abort the minibuffer."
+
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
+
   "ESC to quit"
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'turbo_mack/minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'turbo_mack/minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'turbo_mack/minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'turbo_mack/minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'turbo_mack/minibuffer-keyboard-quit)
   (global-set-key [escape] 'evil-exit-emacs-state)
 #+END_SRC
 
@@ -935,6 +925,33 @@ This is nice sugar for quickly moving to normal mode.
 
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "C-g") 'magit-status)
+#+END_SRC
+
+*** Multiple Cursors
+
+Nice package for Sublime Text like multiple cursor support
+
+#+BEGIN_SRC emacs-lisp
+  (require 'multiple-cursors)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+#+END_SRC
+
+*** Terminal
+
+My custom function to quick access to terminal. Currently its using term mode but I'm thinking about switch to eshel by default.
+
+#+BEGIN_SRC emacs-lisp
+  (defun turbo_mack/toggle-term()
+    "Splits window and open terminal."
+
+    (interactive)
+    (split-window-below)
+    (windmove-down)
+    (term "/bin/zsh"))
+
+  (define-key evil-normal-state-map (kbd "C-t") 'turbo_mack/toggle-term)
 #+END_SRC
 
 ** OS specific configuration

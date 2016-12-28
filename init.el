@@ -29,10 +29,14 @@
 (require 'ob-tangle)
 
 ;; Load Config from Org file
-(org-babel-load-file
- (expand-file-name "turbo_mack.org"
-                   user-emacs-directory))
+(defun turbo_mack/load-config ()
+  "Compile and load whole configuration."
 
+  (org-babel-load-file
+   (expand-file-name "turbo_mack.org"
+                     user-emacs-directory)))
+
+(turbo_mack/load-config)
 (provide 'init)
 ;;; init.el ends here
 (custom-set-variables
@@ -40,7 +44,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (nyan-mode))))
+ '(package-selected-packages
+   (quote
+    (multiple-cursors ob-restclient restclient nyan-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
