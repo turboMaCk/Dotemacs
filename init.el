@@ -19,6 +19,11 @@
 (require 'pallet)
 (pallet-mode t)
 
+;; Custom loads
+(add-to-list 'load-path
+   (expand-file-name "plugin"
+                     user-emacs-directory))
+
 (require 'org)
 (require 'org-install)
 (require 'ob-tangle)

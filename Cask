@@ -1,85 +1,83 @@
-(source melpa)
+(source "melpa" "http://melpa.milkbox.net/packages/")
+(source "gnu" "http://elpa.gnu.org/packages/")
+(source "marmalade" "http://marmalade-repo.org/packages/")
 
-;; package manager
-(package "pallet" "" "")
-
+;; depends-on manager
 (depends-on "pallet")
 
 ;; required for conf loading
-(package "org-mode" "" "Org mode")
+(depends-on "org")
 
 ;; essentials
-(package "exec-path-from-shell" "" "Setup exec path")
-(package "saveplace" "" "Save cursor position")
-(package "smooth-scrolling" "" "")
-(package "recentf" "" "Recent files")
+(depends-on "exec-path-from-shell")
+(depends-on "saveplace")
+(depends-on "smooth-scrolling")
+(depends-on "recentf")
 
 ;; editing juice
-(package "smartparens" "" "")
-(package "rainbow-delimiters" "" "")
-(package "diminish" "" "")
-(package "editorconfig" "" "")
-(package "eletric-pair-mode" "" "")
-(package "auto-complete" "" "")
-(package "auto-complete-config" "" "")
-(package "ac-etags" "" "")
+(depends-on "smartparens")
+(depends-on "rainbow-delimiters")
+(depends-on "diminish")
+(depends-on "editorconfig")
+(depends-on "auto-complete")
+(depends-on "ac-etags")
+(depends-on "color-identifiers-mode")
 
 ;; Evilness
-(package "evil" "" "")
-(package "evil-commentary" "" "")
-(package "evil-surround" "" "")
-(package "evil-visualstart" "" "")
+(depends-on "evil")
+(depends-on "evil-commentary")
+(depends-on "evil-surround")
+(depends-on "evil-visualstar")
 
 ;; Tmux integration
-(package "navigate" "" "")
+(depends-on "navigate")
 
 ;; Helm & Projectile
-(package "helm" "" "")
-(package "helm" "" "")
-(package "projectile" "" "")
-(package "helm-projectile" "" "")
-(package "helm-ag" "" "")
+(depends-on "helm")
+(depends-on "helm")
+(depends-on "projectile")
+(depends-on "helm-projectile")
+(depends-on "helm-ag")
 
 ;; Magit
-(package "magit" "" "")
-(package "evil-magit" "" "")
+(depends-on "magit")
+(depends-on "evil-magit")
 
 ;; Org Mode
-(package "org-mode" "" "")
-(package "ox-reveal" "" "")
-(package "ob-typescript" "" "")
-(package "writegood-mode" "" "")
+(depends-on "ox-reveal")
+(depends-on "ob-typescript")
+(depends-on "writegood-mode")
 
 ;; Snippets
-(package "yasnippet" "" "")
+(depends-on "yasnippet")
 
 ;; Languages and platforms
-(package "scss-mode" "" "")
-(package "nvm" "" "")
-(package "npm-mode" "" "")
-(package "nodejs-repl" "" "")
-(package "skewer-mode" "" "")
-(package "handlebars-mode" "" "")
-(package "ember-mode" "" "")
-(package "typescript-mode" "" "")
-(package "tide" "" "")
-(package "elm-mode" "" "")
-(package "haskell-mode" "" "")
-(package "rbenv" "" "")
-(package "yaml-mode" "" "")
-(package "projectile-rails" "" "")
-(package "markdown-mode+" "" "")
-(package "erlang" "" "")
-(package "elixir-mode" "" "")
-(package "clojure-mode" "" "")
-(package "cider" "" "")
-(package "flycheck-clojure" "" "")
-(package "rust-mode" "" "")
-(package "cargo" "" "")
-(package "flycheck-rust" "" "")
+(depends-on "scss-mode")
+(depends-on "nvm")
+(depends-on "npm-mode")
+(depends-on "nodejs-repl")
+(depends-on "skewer-mode")
+(depends-on "handlebars-mode")
+(depends-on "ember-mode")
+(depends-on "typescript-mode")
+(depends-on "tide")
+(depends-on "elm-mode")
+(depends-on "haskell-mode")
+(depends-on "rbenv")
+(depends-on "yaml-mode")
+(depends-on "projectile-rails")
+(depends-on "markdown-mode+")
+(depends-on "erlang")
+(depends-on "elixir-mode")
+(depends-on "clojure-mode")
+(depends-on "cider")
+(depends-on "flycheck-clojure")
+(depends-on "rust-mode")
+(depends-on "cargo")
+(depends-on "flycheck-rust")
 
 ;; Bindings
-(package "key-chord" "" "")
+(depends-on "key-chord")
 
 ;; OSX
-(package "osx-clipboard-mode" "" "Clipboard on Macintosh")
+(depends-on "osx-clipboard")

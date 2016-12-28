@@ -324,7 +324,7 @@ This loads my customized version of twilight theme.
 
 #+BEGIN_SRC emacs-lisp
   (load
-       (expand-file-name "twilight.el"
+       (expand-file-name "theme/twilight.el"
                   user-emacs-directory))
 #+END_SRC
 
@@ -647,15 +647,10 @@ Actually this whole configuration is one big org file.
 
 Setup languages support for literate programming capabilities.
 
-*** TODO Fix SH integration
-
 #+BEGIN_SRC emacs-lisp
   (require 'ob-typescript)
-
   ;; ob-elm.el is part of this repository
-  (load
-   (expand-file-name "ob-elm.el"
-                     user-emacs-directory))
+  (require 'ob-elm)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -670,6 +665,8 @@ Setup languages support for literate programming capabilities.
   ;; disable confirmation of evaluation
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
+
+*** TODO Fix SH integration
 
 ** Yasnippet
 
