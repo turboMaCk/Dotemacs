@@ -40,6 +40,7 @@ Disable dummy parts of GUI like scroll-bars.
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (display-graphic-p)
+    (when (fboundp 'menu-bar-mode) (menu-bar-mode t))
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
 #+END_SRC
 
@@ -105,7 +106,7 @@ Setup Directories for backups etc.
 #+BEGIN_SRC emacs-lisp
   ;; Bookamrks
   (setq-default bookmark-default-file "~/.emacs.d/bookmakrs")
-  (setq-default bookmark-save-flag 1)
+  (setq-default bookmark-save-flag t)
 
   ;; Backups
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
@@ -116,10 +117,10 @@ Setup Directories for backups etc.
 
   ;; History
   (setq-default savehist-file "~/.emacs.d/savehist")
-  (savehist-mode 1)
+  (savehist-mode t)
   (setq history-length t)
   (setq history-delete-duplicates t)
-  (setq-default savehist-save-minibuffer-history 1)
+  (setq-default savehist-save-minibuffer-history t)
   (setq-default savehist-additional-variables
         '(kill-ring
           search-ring
@@ -137,7 +138,7 @@ Setup Directories for backups etc.
 
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'winner-mode)
-    (winner-mode 1))
+    (winner-mode t))
 #+END_SRC
 
 Using midnight mode to clean up old buffers with periodically.
@@ -436,9 +437,6 @@ This configuration is mostly around awesome ~fly-check-mode~.
 (global-flycheck-mode t)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-
 ** Auto complete
 
 I have a history of using various text editor. I was actually never big fan of IDEs mostly because
@@ -467,7 +465,7 @@ I'm using auto complete mode. However I'm thinking about switching to company si
 
   (defun init-ac-etags ()
     "Setup auto completion for etags."
-    (setq ac-etags-requires 1)
+    (setq ac-etags-requires t)
     (ac-config-default)
     (ac-etags-setup))
 
@@ -648,13 +646,20 @@ Actually this whole configuration is one big org file.
 Setup languages support for literate programming capabilities.
 
 #+BEGIN_SRC emacs-lisp
+  (require 'ob-sh)
+  (require 'ob-emacs-lisp)
+  (require 'ob-ruby)
+  (require 'ob-js)
   (require 'ob-typescript)
   ;; ob-elm.el is part of this repository
   (require 'ob-elm)
+  (require 'ob-haskell)
+  (require 'ob-C)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sh . t)
+     (emacs-lisp . t)
      (ruby . t)
      (js . t)
      (typescript . t)
@@ -719,13 +724,13 @@ Typescript is far from being ideal language. Anyway I tend to use it over JS for
     "Setup tide (typescript syntax checker)."
     (interactive)
     (tide-setup)
-    (flycheck-mode +1)
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
+    (flycheck-mode t)
+    (eldoc-mode t)
+    (tide-hl-identifier-mode t)
     ;; company is an optional dependency. You have to
     ;; install it separately via package-install
     ;; `M-x package-install [ret] company`
-    (company-mode +1))
+    (company-mode t))
 
     (add-hook 'before-save-hook 'tide-format-before-save)
     (add-hook 'typescript-mode-hook #'setup-tide-mode)
@@ -749,12 +754,12 @@ Elm is simple ML like language with great ecosystem. This is my go-to default wh
 
 I know this is neardy...
 
-**** TODO Improve performance of auto complete
-**** TODO Improve indentation
-
 #+BEGIN_SRC emacs-lisp
   (require 'haskell-mode)
 #+END_SRC
+
+**** TODO Improve performance of auto complete
+**** TODO Improve indentation
 
 *** Ruby
 
@@ -830,7 +835,7 @@ When I can't use org I go for the markdown.
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 #+END_SRC
 
-** Binding
+** Bindings
 
 One of the most important parts is to bind all functionality to keys and glue it together.
 This is exactly what this part is about.
