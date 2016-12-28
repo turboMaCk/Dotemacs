@@ -16,6 +16,9 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask/cask.el")
 (cask-initialize)
 
+(require 'pallet)
+(pallet-mode t)
+
 (require 'org)
 (require 'org-install)
 (require 'ob-tangle)

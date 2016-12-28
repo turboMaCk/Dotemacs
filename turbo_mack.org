@@ -624,6 +624,7 @@ I really fall in love with org-mode which is my tool of choice when it comes to 
 Actually this whole configuration is one big org file.
 
 #+BEGIN_SRC emacs-lisp
+  (require 'org)
   (require 'ox)
   (require 'ob)
   (require 'flyspell)

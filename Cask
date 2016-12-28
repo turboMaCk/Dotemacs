@@ -1,5 +1,10 @@
 (source melpa)
 
+;; package manager
+(package "pallet" "" "")
+
+(depends-on "pallet")
+
 ;; required for conf loading
 (package "org-mode" "" "Org mode")
 
