@@ -37,12 +37,12 @@ Start Emacs server if it's not running. This allows you to use ~emacsclient [fil
 Disable dummy parts of GUI like scroll-bars.
 
 #+BEGIN_SRC emacs-lisp
-  (when (fboundp 'tool-bar-mode) (tool-bar-mode nil))
-  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode nil))
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (when (fboundp 'menu-bar-mode)
     (if (display-graphic-p)
         (menu-bar-mode t)
-      (menu-bar-mode nil)))
+      (menu-bar-mode -1)))
 #+END_SRC
 
 Start scratch in text mode (usefull to get a faster Emacs load time
