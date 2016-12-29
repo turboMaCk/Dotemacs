@@ -99,7 +99,7 @@ Setup Directories for backups etc.
 
   ;; Backups
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-  (setq delete-old-versions nil)
+  (setq delete-old-versions -1)
   (setq version-control t)
   (setq vc-make-backup-files t)
   (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
@@ -250,7 +250,7 @@ Stay sane please
 
   (xterm-mouse-mode t)
   (which-function-mode t)
-  (blink-cursor-mode nil)
+  (blink-cursor-mode -1)
   (global-auto-revert-mode t)
   (electric-indent-mode t)
   (transient-mark-mode t)
@@ -781,7 +781,7 @@ folder. Together Helm & Projectile are the main ways to file management and proj
   (defun turbo_mack/init-projectile ()
     "Initialize projectlile."
 
-    (setq projectile-enable-caching nil)
+    (setq projectile-enable-caching -1)
     (projectile-global-mode t))
 
   (turbo_mack/init-projectile)
