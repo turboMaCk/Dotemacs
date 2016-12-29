@@ -1,2 +1,1 @@
-# Dotemacs
-My evil emacs settings.
+turbo_mack.org
