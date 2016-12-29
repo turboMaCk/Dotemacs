@@ -37,12 +37,12 @@ Start Emacs server if it's not running. This allows you to use ~emacsclient [fil
 Disable dummy parts of GUI like scroll-bars.
 
 #+BEGIN_SRC emacs-lisp
-  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode nil))
+  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode nil))
   (when (fboundp 'menu-bar-mode)
     (if (display-graphic-p)
         (menu-bar-mode t)
-      (menu-bar-mode -1)))
+      (menu-bar-mode nil)))
 #+END_SRC
 
 Start scratch in text mode (usefull to get a faster Emacs load time
@@ -62,12 +62,12 @@ Setup fringes (spaces around windows).
 
 #+BEGIN_SRC emacs-lisp
   (when (display-graphic-p)
-    (lambda ()
-      (fringe-mode 2)
-      (setq-default left-fringe-width 12)
-      (setq-default right-fringe-width 0)))
+    (fringe-mode 2)
+    (setq-default left-fringe-width 12)
+    (setq-default right-fringe-width 0))
+
   (setq-default truncate-lines t)
-  (setq line-spacing 2)
+  (setq line-spacing 3)
 #+END_SRC
 
 Setup garbage collection to gain some extra performance.
@@ -81,6 +81,7 @@ Setup compilation.
 #+BEGIN_SRC emacs-lisp
   (setq-default compilation-always-kill t)
   (setq compilation-ask-about-save nil)
+
   (add-hook 'compilation-filter-hook
 	    (lambda ()
 	      (when (eq major-mode 'compilation-mode)
@@ -98,7 +99,7 @@ Setup Directories for backups etc.
 
   ;; Backups
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-  (setq delete-old-versions -1)
+  (setq delete-old-versions nil)
   (setq version-control t)
   (setq vc-make-backup-files t)
   (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
@@ -249,7 +250,7 @@ Stay sane please
 
   (xterm-mouse-mode t)
   (which-function-mode t)
-  (blink-cursor-mode -1)
+  (blink-cursor-mode nil)
   (global-auto-revert-mode t)
   (electric-indent-mode t)
   (transient-mark-mode t)
@@ -780,7 +781,7 @@ folder. Together Helm & Projectile are the main ways to file management and proj
   (defun turbo_mack/init-projectile ()
     "Initialize projectlile."
 
-    (setq projectile-enable-caching -1)
+    (setq projectile-enable-caching nil)
     (projectile-global-mode t))
 
   (turbo_mack/init-projectile)
