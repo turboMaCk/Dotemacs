@@ -395,11 +395,18 @@ Still writing a lot of JS daily for good and bad.
   ;; enable flycheck
   (add-hook 'js-mode-hook
           (lambda () (flycheck-mode t)))
+
+  (defun turbo_mack/init-js-bindings ()
+    "Setup key binding for JavaScript major mode."
+    (interactive)
+    (local-set-key (kbd "C-x C-e") 'nodejs-repl-send-last-sexp))
+
+  (add-hook 'js-mode 'turbo_mack/init-js-bindings)
 #+END_SRC
 
 *** Typescript
-
-Typescript is far from being ideal language. Anyway I tend to use it over JS for most of the things I'll write in JS before.
+    Typescript is far from being ideal language. Anyway I tend to use it over JS for most of the things I'll write in JS before.
+    Please make sure both typescript and
 
 #+BEGIN_SRC emacs-lisp
   (require 'typescript-mode)
@@ -425,8 +432,8 @@ Typescript is far from being ideal language. Anyway I tend to use it over JS for
 #+END_SRC
 
 *** Elm
-
-Elm is simple ML like language with great ecosystem. This is my go-to default when it goes to web app development.
+    ~elm-mode~ is great even with default settings.
+    Please make sure you have [[https://github.com/avh4/elm-format][elm-format]] installed.
 
 #+BEGIN_SRC emacs-lisp
   (require 'elm-mode)
@@ -434,18 +441,66 @@ Elm is simple ML like language with great ecosystem. This is my go-to default wh
   (add-hook 'elm-mode-hook #'elm-oracle-setup-completion)
   (add-hook 'elm-mode-hook #'auto-complete-mode)
   (add-hook 'elm-mode-hook #'elm-oracle-setup-ac)
+
+  (defun turbo_mack/init-elm ()
+    (elm-tags-on-save t)
+    (elm-format-on-save t))
+
+  (add-hook 'elm-mode-hook #'turbo_mack/init-elm)
 #+END_SRC
 
 *** Haskell
+    [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md][There]] is a great article about setting up Emacs for Haskell development by Serras.
 
-I know this is neardy...
+    This configuration is using several packages which requires installed binaries:
+
+    - [[https://github.com/chrisdone/hindent][hindent-mode]] takes care of formatting ~stack install hindent~.
+    - [[https://github.com/marcotmarcot/hasktags][hasktags]] is tool for creating tag files ~stack install hasktags~.
+    - [[https://github.com/jaspervdj/stylish-haskell][stylish-haskell]] is another code formatting tool ~stack install stylish-haskell~.
 
 #+BEGIN_SRC emacs-lisp
   (require 'haskell-mode)
+  (require 'hindent)
+  (add-hook 'haskell-mode-hook #'hindent-mode)
+
+  (eval-after-load 'haskell-mode
+    '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
+
+  (custom-set-variables '(haskell-tags-on-save t))
+
+  ;; use stack instead of plain ghci
+  (custom-set-variables '(haskell-process-type 'stack-ghci))
+
+  (custom-set-variables
+   '(haskell-process-suggest-remove-import-lines t)
+   '(haskell-process-auto-import-loaded-modules t)
+   '(haskell-process-log t))
+  (eval-after-load 'haskell-mode '(progn
+                                    (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+                                    (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+                                    (define-key haskell-mode-map (kbd "C-c C-n C-t") 'haskell-process-do-type)
+                                    (define-key haskell-mode-map (kbd "C-c C-n C-i") 'haskell-process-do-info)
+                                    (define-key haskell-mode-map (kbd "C-c C-n C-c") 'haskell-process-cabal-build)
+                                    (define-key haskell-mode-map (kbd "C-c C-n c") 'haskell-process-cabal)))
+  (eval-after-load 'haskell-cabal '(progn
+                                     (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+                                     (define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+                                     (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+                                     (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)))
 #+END_SRC
 
 **** TODO Improve performance of auto complete
+     I experienced some performance issues with ~haskell-mode~. Possibly this problem with ~fly-check~.
+     configuration.
+
 **** TODO Improve indentation
+     This really pisses me off. Ideally I would like same behaviour as ~elm-mode~ has (toggling indentation with ~<TAB>~).
+
+**** TODO GHC-MOD
+     GHC-Mode needs binary and some special settings. Anyway It can supports integration with company mode and other interesting features.
+
+**** TODO Structured-Haskell mode
+     [[https://github.com/chrisdone/structured-haskell-mode][structured-haskell-mode]] is super powerful mode for editing Haskell source code.
 
 *** Ruby
 
@@ -462,15 +517,33 @@ I prefer rbenv over RVM.
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
 
   (require 'yaml-mode)
+
+  (require 'robe)
+  (add-hook 'ruby-mode-hook 'robe-mode)
+  (eval-after-load 'company
+    '(push 'company-robe company-backends))
+
+  (add-hook #'robe-mode-hook #'ac-robe-setup)
 #+END_SRC
 
-*** Markdown
+**** TODO Integrate REPL
+     It would be nice to make repl integration working as I did for some other languages.
 
-When I can't use org I go for the markdown.
+**** TODO Improve and map robe mode
+     I haven't really test robe mode much even though it looks promising.
+
+*** Markdown
+    When I can't use org I go for the markdown.
 
 #+BEGIN_SRC emacs-lisp
   (require 'markdown-mode+)
 #+END_SRC
+
+**** TODO Spell checking
+     Turn on spell check automatically.
+
+**** TODO WriteGood mode
+     Turn on writegood as in org-mode.
 
 *** Erlang
 
@@ -480,6 +553,8 @@ When I can't use org I go for the markdown.
 #+END_SRC
 
 *** Elixir
+    Elixir is build on top of Erlang and OTP but has similar syntax to Ruby.
+    This allows us to reuse some features from ~ruby-mode~.
 
 #+BEGIN_SRC emacs-lisp
   (require 'elixir-mode)
@@ -502,6 +577,7 @@ When I can't use org I go for the markdown.
 #+END_SRC
 
 *** Clojure
+    Just basic integration which
 
 #+BEGIN_SRC emacs-lisp
   (require 'clojure-mode)
@@ -509,7 +585,12 @@ When I can't use org I go for the markdown.
   (require 'flycheck-clojure)
 #+END_SRC
 
+**** TODO Improve
+     Clojure has some super powerful integration. I will add them if needed.
+     You can follow [[http://www.braveclojure.com/basic-emacs/][this awesome article]] (or [[http://clojure-doc.org/articles/tutorials/emacs.html][this]])for more information.
+
 *** Rust
+    This is just a first spike and not well-tested integration improved integration.
 
 #+BEGIN_SRC emacs-lisp
   (require 'rust-mode)
@@ -521,21 +602,21 @@ When I can't use org I go for the markdown.
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 #+END_SRC
 
-** Other Tools
+**** TODO Improve integration
+     Especially I would like to make sure integration with fly check works as expected.
 
-This is collection of other Emacs based tools I'm using.
+** Other Tools
+   This is collection of other Emacs based tools I'm using.
 
 *** RestClient
-
-Rest client is better than Postman.
+    Rest client is better than Postman.
 
 #+BEGIN_SRC emacs-lisp
   (require 'restclient)
 #+END_SRC
 
 ** Linting
-
-This configuration is mostly around awesome ~fly-check-mode~.
+   This configuration is mostly around awesome ~fly-check-mode~.
 
 #+BEGIN_SRC emacs-lisp
 (require 'flycheck)
@@ -731,6 +812,7 @@ Actually this whole configuration is one big org file.
   (require 'ox)
   (require 'ob)
   (require 'flyspell)
+  (require 'evil-org)
 
   ;; setup TODOs
   (setq org-log-done t
