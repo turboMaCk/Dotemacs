@@ -13,7 +13,7 @@ To be honest while re-evaluating this I actually think that my original solution
 API directly - was the best of these. Anyway I believe Cask will be rock solid solution which will
 scale for years.
 
-** Setup User Info
+* Setup User Info
 
 This is to setup user. *This is probably first think you want to change in your fork.*
 
@@ -22,7 +22,7 @@ This is to setup user. *This is probably first think you want to change in your 
         user-mail-address "marek.faj@gmail.com")
 #+END_SRC
 
-** Core configuration
+* Core configuration
 
 These are one of the most important settings for Emacs' core and GUI.
 
@@ -258,7 +258,7 @@ Stay sane please
   (random t) ;; seed
 #+END_SRC
 
-** Color Theme
+* Color Theme
 
 This loads my customized version of twilight theme.
 
@@ -301,7 +301,7 @@ Theme agnostic UI settings
   (set-frame-parameter (selected-frame) 'internal-border-width 0)
 #+END_SRC
 
-** Syntax improvements
+* Syntax improvements
 
 #+BEGIN_SRC emacs-lisp
   (require 'smartparens)
@@ -315,14 +315,14 @@ Theme agnostic UI settings
   (diminish 'color-identifiers-mode)
 #+END_SRC
 
-** Spell Check
+* Spell Check
 
 #+BEGIN_SRC emacs-lisp
   (setenv "DICTIONARY" "en_GB")
   (setq ispell-program-name "aspell")
 #+END_SRC
 
-** Indentation Settings
+* Indentation Settings
 
 Honestly this is one of the most annoying things in Emacs.
 You have no idea which packages are setting indentation rules or running
@@ -368,11 +368,11 @@ Line ends sanitization.
 (add-hook 'find-file-hook 'turbo_mack/find-file-check-line-endings)
 #+END_SRC
 
-** Languages and Platforms
+* Languages and Platforms
 
 This part of configuration handles settings for specific languages and major modes in general.
 
-*** Web
+** Web
 
 Web is my hate and love. Even though I'm a big critic of some technical aspect of web and standards around it
 I do admire its philosophy and values.
@@ -381,7 +381,7 @@ I do admire its philosophy and values.
   (require 'scss-mode)
 #+END_SRC
 
-*** JavaScript
+** JavaScript
 
 Still writing a lot of JS daily for good and bad.
 
@@ -405,11 +405,17 @@ Still writing a lot of JS daily for good and bad.
   (add-hook 'js-mode 'turbo_mack/init-js-bindings)
 #+END_SRC
 
-*** Typescript
-    Typescript is far from being ideal language. Anyway I tend to use it over JS for most of the things I'll write in JS before.
-    Please make sure both typescript and
+** Typescript
 
-#+BEGIN_SRC emacs-lisp
+Typescript is far from being ideal language. Anyway I tend to use it over JS for most of the things I'll write in JS before.
+Please make sure both ~typescript~ and tide ~installed~.
+
+#+BEGIN_SRC shell :exports none :results none
+npm install -g typescript
+npm install -g tide
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results none
   (require 'typescript-mode)
   (require 'tide)
 
@@ -432,9 +438,16 @@ Still writing a lot of JS daily for good and bad.
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 #+END_SRC
 
-*** Elm
-    ~elm-mode~ is great even with default settings.
-    Please make sure you have [[https://github.com/avh4/elm-format][elm-format]] installed.
+#+RESULTS:
+| :insertSpaceAfterFunctionKeywordForAnonymousFunctions | t | :placeOpenBraceOnNewLineForFunctions | nil |
+
+** Elm
+~elm-mode~ is great even with default settings.
+Please make sure you have [[https://github.com/avh4/elm-format][elm-format]] installed.
+
+#+BEGIN_SRC shell :exports none :resuts non
+npm install -g elm
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (require 'elm-mode)
@@ -450,14 +463,21 @@ Still writing a lot of JS daily for good and bad.
   (add-hook 'elm-mode-hook #'turbo_mack/init-elm)
 #+END_SRC
 
-*** Haskell
-    [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md][There]] is a great article about setting up Emacs for Haskell development by Serras.
+** Haskell
 
-    This configuration is using several packages which requires installed binaries:
+[[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md][There]] is a great article about setting up Emacs for Haskell development by Serras.
 
-    - [[https://github.com/chrisdone/hindent][hindent-mode]] takes care of formatting ~stack install hindent~.
-    - [[https://github.com/marcotmarcot/hasktags][hasktags]] is tool for creating tag files ~stack install hasktags~.
-    - [[https://github.com/jaspervdj/stylish-haskell][stylish-haskell]] is another code formatting tool ~stack install stylish-haskell~.
+This configuration is using several packages which requires installed binaries:
+
+- [[https://github.com/chrisdone/hindent][hindent-mode]] takes care of formatting
+- [[https://github.com/marcotmarcot/hasktags][hasktags]] is tool for creating tag files
+- [[https://github.com/jaspervdj/stylish-haskell][stylish-haskell]] is another code formatting tool
+
+#+BEGIN_SRC shell :exports none :results none
+cabal install -g hindent
+cabal install -g hasktags
+cabal install -g stylish-haskell
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (require 'haskell-mode)
@@ -466,6 +486,10 @@ Still writing a lot of JS daily for good and bad.
 
   (eval-after-load 'haskell-mode
     '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
+
+  (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
+    (setenv "PATH" (concat my-cabal-path path-separator (getenv "PATH")))
+    (add-to-list 'exec-path my-cabal-path))
 
   (custom-set-variables '(haskell-tags-on-save t))
 
@@ -490,24 +514,33 @@ Still writing a lot of JS daily for good and bad.
                                      (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)))
 #+END_SRC
 
-**** TODO Improve performance of auto complete
-     I experienced some performance issues with ~haskell-mode~. Possibly this problem with ~fly-check~.
-     configuration.
+#+RESULTS:
+: haskell-process-cabal
 
-**** TODO Improve indentation
-     This really pisses me off. Ideally I would like same behaviour as ~elm-mode~ has (toggling indentation with ~<TAB>~).
+*** TODO Improve performance of auto complete
+    I experienced some performance issues with ~haskell-mode~. Possibly this problem with ~fly-check~.
+    configuration.
 
-**** TODO GHC-MOD
-     GHC-Mode needs binary and some special settings. Anyway It can supports integration with company mode and other interesting features.
+*** TODO Improve indentation
+    This really pisses me off. Ideally I would like same behaviour as ~elm-mode~ has (toggling indentation with ~<TAB>~).
 
-**** TODO Structured-Haskell mode
-     [[https://github.com/chrisdone/structured-haskell-mode][structured-haskell-mode]] is super powerful mode for editing Haskell source code.
+*** TODO GHC-MOD
+    GHC-Mode needs binary and some special settings. Anyway It can supports integration with company mode and other interesting features.
 
-*** Ruby
+*** TODO Structured-Haskell mode
+    [[https://github.com/chrisdone/structured-haskell-mode][structured-haskell-mode]] is super powerful mode for editing Haskell source code.
+
+** Ruby
 
 I sometimes write Ruby since it's so popular language for writing APIs and web apps.
 I past I was writing a lot of Ruby myself and I keep to maintain my workflow and environment.
 I prefer rbenv over RVM.
+
+On Mac with Home Brew:
+
+#+BEGIN_SRC shell :exports none :results none
+brew install rbenv
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (require 'rbenv)
@@ -527,33 +560,35 @@ I prefer rbenv over RVM.
   (add-hook #'robe-mode-hook #'ac-robe-setup)
 #+END_SRC
 
-**** TODO Integrate REPL
-     It would be nice to make repl integration working as I did for some other languages.
+*** TODO Integrate REPL
+    It would be nice to make repl integration working as I did for some other languages.
 
-**** TODO Improve and map robe mode
-     I haven't really test robe mode much even though it looks promising.
+*** TODO Improve and map robe mode
+    I haven't really test robe mode much even though it looks promising.
 
-*** Markdown
+** Markdown
     When I can't use org I go for the markdown.
 
 #+BEGIN_SRC emacs-lisp
   (require 'markdown-mode+)
+
+  ;; Grammar niceness
+  (add-hook 'markdown-mode
+            (lambda ()
+              (writegood-mode)))
 #+END_SRC
 
-**** TODO Spell checking
-     Turn on spell check automatically.
+*** TODO Spell checking
+    Turn on spell check automatically.
 
-**** TODO WriteGood mode
-     Turn on writegood as in org-mode.
-
-*** Erlang
+** Erlang
 
 #+BEGIN_SRC emacs-lisp
   (require 'erlang)
   (require 'erlang-start)
 #+END_SRC
 
-*** Elixir
+** Elixir
     Elixir is build on top of Erlang and OTP but has similar syntax to Ruby.
     This allows us to reuse some features from ~ruby-mode~.
 
@@ -577,7 +612,7 @@ I prefer rbenv over RVM.
                    :actions '(insert navigate)))
 #+END_SRC
 
-*** Clojure
+** Clojure
     Just basic integration which
 
 #+BEGIN_SRC emacs-lisp
@@ -586,11 +621,11 @@ I prefer rbenv over RVM.
   (require 'flycheck-clojure)
 #+END_SRC
 
-**** TODO Improve
-     Clojure has some super powerful integration. I will add them if needed.
-     You can follow [[http://www.braveclojure.com/basic-emacs/][this awesome article]] (or [[http://clojure-doc.org/articles/tutorials/emacs.html][this]])for more information.
+*** TODO Improve
+    Clojure has some super powerful integration. I will add them if needed.
+    You can follow [[http://www.braveclojure.com/basic-emacs/][this awesome article]] (or [[http://clojure-doc.org/articles/tutorials/emacs.html][this]])for more information.
 
-*** Rust
+** Rust
     This is just a first spike and not well-tested integration improved integration.
 
 #+BEGIN_SRC emacs-lisp
@@ -603,20 +638,20 @@ I prefer rbenv over RVM.
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 #+END_SRC
 
-**** TODO Improve integration
-     Especially I would like to make sure integration with fly check works as expected.
+*** TODO Improve integration
+    Especially I would like to make sure integration with fly check works as expected.
 
-** Other Tools
-   This is collection of other Emacs based tools I'm using.
+* Other Tools
+  This is collection of other Emacs based tools I'm using.
 
-*** RestClient
+** RestClient
     Rest client is better than Postman.
 
 #+BEGIN_SRC emacs-lisp
   (require 'restclient)
 #+END_SRC
 
-** Linting
+* Linting
    This configuration is mostly around awesome ~fly-check-mode~.
 
 #+BEGIN_SRC emacs-lisp
@@ -624,7 +659,7 @@ I prefer rbenv over RVM.
 (global-flycheck-mode t)
 #+END_SRC
 
-** Auto complete
+* Auto complete
 
 I have a history of using various text editor. I was actually never big fan of IDEs mostly because
 my primary focus was on scripting languages. Even though I have used Netbeans and similar I never really stick to it.
@@ -659,7 +694,7 @@ I'm using auto complete mode. However I'm thinking about switching to company si
   (turbo_mack/init-ac-etags)
 #+END_SRC
 
-** Evil
+* Evil
 
 Vimmify Emacs. Sorry folks. I'm on dark side of power.
 
@@ -756,7 +791,7 @@ By default re-indenting blocks in evil is kind of nightmare. This will fix it:
   (define-key evil-visual-state-map [S-tab] 'turbo_mack/evil-shift-left-visual)
 #+END_SRC
 
-** Helm & Projectile
+* Helm & Projectile
 
 Helm is another important plugin I rely quite heavily on. It basically provides nice fuzzy search and auto complete
 interface for various things. Projectile on the other hand setup project environment based on GIT settings in current
@@ -793,7 +828,7 @@ folder. Together Helm & Projectile are the main ways to file management and proj
   (require 'helm-ag)
 #+END_SRC
 
-** Magit
+ ** Magit
 
 Magit is my favorite GIT interface of all time. This will setup Magit itself as well as its integration to evil.
 
@@ -802,7 +837,7 @@ Magit is my favorite GIT interface of all time. This will setup Magit itself as 
   (require 'evil-magit)
 #+END_SRC
 
-** Org Mode
+* Org Mode
 
 Org mode is super fantastic. As I'm more fascinated with application of literate programming and reproducible research.
 I really fall in love with org-mode which is my tool of choice when it comes to exploring field as well as organizing stuff.
@@ -833,8 +868,9 @@ Actually this whole configuration is one big org file.
 
 Setup languages support for literate programming capabilities.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :exports none
   (require 'ob-sh)
+  (require 'ob-shell)
   (require 'ob-emacs-lisp)
   (require 'ob-ruby)
   (require 'ob-js)
@@ -848,6 +884,7 @@ Setup languages support for literate programming capabilities.
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sh . t)
+     (shell .t)
      (emacs-lisp . t)
      (ruby . t)
      (js . t)
@@ -861,9 +898,9 @@ Setup languages support for literate programming capabilities.
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
 
-*** TODO Fix SH integration
+** TODO Fix SH integration
 
-** Yasnippet
+* Yasnippet
 
 Honestly I never did get used to using snippets a lot. Anyway I'm keeping this as part of my configuration because
 I know it might be useful in future.
@@ -872,13 +909,13 @@ I know it might be useful in future.
   (require 'yasnippet)
 #+END_SRC
 
-** Bindings
+* Bindings
 
 One of the most important parts is to bind all functionality to keys and glue it together.
 This is exactly what this part is about.
 
 
-*** Window management
+** Window management
 
 #+BEGIN_SRC emacs-lisp
   (defun turbo_mack/vsplit-and-skip()
@@ -922,14 +959,14 @@ This is exactly what this part is about.
   (define-key evil-normal-state-map (kbd "C-c h") 'winner-undo)
 #+END_SRC
 
-*** Improve line navigation
+** Improve line navigation
 
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 #+END_SRC
 
-*** ESC to quit
+** ESC to quit
 
 Actually I'm thinking more and more to switching to Emacs way and rather mapping ~q~ to quit on all the places
 even though I'm using ~q~ now for macro recording.
@@ -957,7 +994,7 @@ even though I'm using ~q~ now for macro recording.
   (global-set-key [escape] 'evil-exit-emacs-state)
 #+END_SRC
 
-*** jk kj to normal mode
+** jk kj to normal mode
 
 This is nice sugar for quickly moving to normal mode.
 
@@ -969,9 +1006,9 @@ This is nice sugar for quickly moving to normal mode.
   (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
 #+END_SRC
 
-*** Helm
+** Helm
 
-**** make navigation vim-like
+*** make navigation vim-like
 
 #+BEGIN_SRC emacs-lisp
   (define-key helm-map (kbd "C-j") 'helm-next-line)
@@ -979,7 +1016,7 @@ This is nice sugar for quickly moving to normal mode.
 #+END_SRC
 
 
-**** Force helm over default
+*** Force helm over default
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "M-x") 'helm-M-x)
@@ -989,7 +1026,7 @@ This is nice sugar for quickly moving to normal mode.
   (define-key evil-motion-state-map (kbd "C-x C-f") 'helm-find-files)
 #+END_SRC
 
-*** Projectile
+** Projectile
 
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
@@ -997,20 +1034,20 @@ This is nice sugar for quickly moving to normal mode.
   (define-key evil-normal-state-map (kbd "C-a") 'helm-ag)
 #+END_SRC
 
-*** Auto Complete
+** Auto Complete
 
 #+BEGIN_SRC emacs-lisp
   (define-key ac-mode-map (kbd "C-j") 'ac-next)
   (define-key ac-mode-map (kbd "C-k") 'ac-previous)
 #+END_SRC
 
-*** Magit
+** Magit
 
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "C-g") 'magit-status)
 #+END_SRC
 
-*** Multiple Cursors
+** Multiple Cursors
 
 Nice package for Sublime Text like multiple cursor support
 
@@ -1021,7 +1058,7 @@ Nice package for Sublime Text like multiple cursor support
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 #+END_SRC
 
-*** Terminal
+** Terminal
 
 My custom function to quick access to terminal. Currently its using term mode but I'm thinking about switch to eshel by default.
 
@@ -1037,11 +1074,11 @@ My custom function to quick access to terminal. Currently its using term mode bu
   (define-key evil-normal-state-map (kbd "C-t") 'turbo_mack/toggle-term)
 #+END_SRC
 
-** OS specific configuration
+* OS specific configuration
 
 All OS specific settings should go here.
 
-*** Macintosh
+** Macintosh
 
 Setup environment and exec path. This is using ~exec-path-from-shell~ package.
 
