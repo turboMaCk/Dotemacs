@@ -44,6 +44,7 @@
 (depends-on "osx-clipboard")
 (depends-on "ox-reveal")
 (depends-on "pallet")
+(depends-on "perspective")
 (depends-on "projectile")
 (depends-on "projectile-rails")
 (depends-on "rainbow-delimiters")

@@ -375,7 +375,7 @@ Line ends sanitization.
     (set-buffer-modified-p nil)))
 
 (add-hook 'find-file-hook 'turbo_mack/find-file-check-line-endings)
-#+END_SRC
+ #+END_SRC
 
 * Languages and Platforms
 
@@ -846,6 +846,15 @@ Magit is my favorite GIT interface of all time. This will setup Magit itself as 
   (require 'evil-magit)
 #+END_SRC
 
+* Perspective
+
+Perspective is package for managing workspaces within Emacs.
+
+#+BEGIN_SRC emacs-lisp :results none
+  (require 'perspective)
+  (persp-mode t)
+#+END_SRC
+
 * Org Mode
 
 Org mode is super fantastic. As I'm more fascinated with application of literate programming and reproducible research.
@@ -1039,8 +1048,8 @@ This is nice sugar for quickly moving to normal mode.
 
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
-  (define-key evil-motion-state-map (kbd "C-o") 'helm-projectile-switch-project)
-  (define-key evil-normal-state-map (kbd "C-a") 'helm-ag)
+  (define-key evil-motion-state-map (kbd "C-o") 'persp-switch)
+  (define-key evil-motion-state-map (kbd "C-x C-o") 'helm-projectile-switch-project)
 #+END_SRC
 
 ** Auto Complete
