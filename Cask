@@ -59,6 +59,7 @@
 (depends-on "smooth-scrolling")
 (depends-on "tide")
 (depends-on "typescript-mode")
+(depends-on "which-key")
 (depends-on "writegood-mode")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")

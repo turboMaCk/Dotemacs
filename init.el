@@ -51,7 +51,7 @@
  '(haskell-tags-on-save t)
  '(package-selected-packages
    (quote
-    (evil-org org-evil hindent robe multiple-cursors ob-restclient restclient nyan-mode))))
+    (which-key evil-org org-evil hindent robe multiple-cursors ob-restclient restclient nyan-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

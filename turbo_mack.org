@@ -301,6 +301,15 @@ Theme agnostic UI settings
   (set-frame-parameter (selected-frame) 'internal-border-width 0)
 #+END_SRC
 
+* Which key
+
+Which Key helps me with key bindings
+
+#+BEGIN_SRC emacs-lisp :results none
+(require 'which-key)
+(which-key-mode t)
+#+END_SRC
+
 * Syntax improvements
 
 #+BEGIN_SRC emacs-lisp
