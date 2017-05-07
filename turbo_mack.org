@@ -474,6 +474,8 @@ npm install -g elm
 
 ** Haskell
 
+
+
 [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md][There]] is a great article about setting up Emacs for Haskell development by Serras.
 
 This configuration is using several packages which requires installed binaries:
@@ -537,7 +539,16 @@ cabal install -g stylish-haskell
     GHC-Mode needs binary and some special settings. Anyway It can supports integration with company mode and other interesting features.
 
 *** TODO Structured-Haskell mode
+
     [[https://github.com/chrisdone/structured-haskell-mode][structured-haskell-mode]] is super powerful mode for editing Haskell source code.
+
+** PureScript
+
+Another ML like language
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'purescript-mode-hook #'haskell-indentation-mode)
+#+END_SRC
 
 ** Ruby
 
@@ -1044,12 +1055,12 @@ This is nice sugar for quickly moving to normal mode.
   (define-key evil-motion-state-map (kbd "C-x C-f") 'helm-find-files)
 #+END_SRC
 
-** Projectile
+** Projectile & Perspective
 
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
-  (define-key evil-motion-state-map (kbd "C-o") 'persp-switch)
-  (define-key evil-motion-state-map (kbd "C-x C-o") 'helm-projectile-switch-project)
+  (define-key evil-motion-state-map (kbd "SPC") 'persp-switch)
+  (define-key evil-motion-state-map (kbd "C-o") 'helm-projectile-switch-project)
 #+END_SRC
 
 ** Auto Complete

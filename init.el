@@ -16,13 +16,13 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask/cask.el")
 (cask-initialize)
 
-(require 'pallet)
-(pallet-mode t)
-
 ;; Custom loads
 (add-to-list 'load-path
    (expand-file-name "plugin"
                      user-emacs-directory))
+
+(require 'pallet)
+(pallet-mode t)
 
 (require 'org)
 (require 'org-install)
@@ -51,7 +51,8 @@
  '(haskell-tags-on-save t)
  '(package-selected-packages
    (quote
-    (perspective which-key evil-org org-evil hindent robe multiple-cursors ob-restclient restclient nyan-mode))))
+    (psc-ide psci purescript-mode helm-css-scss perspective which-key evil-org org-evil hindent robe multiple-cursors ob-restclient restclient nyan-mode)))
+ '(purescript-mode-hook (quote (turn-on-purescript-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
