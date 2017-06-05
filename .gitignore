@@ -13,3 +13,5 @@ eshell
 turbo_mack.el
 /#turbo_mack.el#
 /network-security.data
+/.mc-lists.el
+/turbo_mack.org[*Org Src turbo_mack.org[ emacs-lisp ]*]

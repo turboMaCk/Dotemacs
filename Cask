@@ -4,6 +4,7 @@
 
 (depends-on "ac-etags")
 (depends-on "auto-complete")
+(depends-on "bash-completion")
 (depends-on "cargo")
 (depends-on "cider")
 (depends-on "clojure-mode")
