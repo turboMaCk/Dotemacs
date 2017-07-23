@@ -818,6 +818,8 @@ By default re-indenting blocks in evil is kind of nightmare. This will fix it:
   (define-key evil-visual-state-map (kbd "<") 'turbo_mack/evil-shift-left-visual)
   (define-key evil-visual-state-map [tab] 'turbo_mack/evil-shift-right-visual)
   (define-key evil-visual-state-map [S-tab] 'turbo_mack/evil-shift-left-visual)
+
+  (define-key evil-normal-state-map (kbd "C-c C-c") 'compile)
 #+END_SRC
 
 * Helm & Projectile
@@ -1067,9 +1069,9 @@ This is nice sugar for quickly moving to normal mode.
 ** Projectile & Perspective
 
 #+BEGIN_SRC emacs-lisp
+  (define-key evil-motion-state-map (kbd "C-o") 'helm-projectile-switch-project)
   (define-key evil-motion-state-map (kbd "SPC") 'persp-switch)
-  (define-key evil-normal-state-map (kbd "C-o") 'helm-projectile-find-file)
-  (define-key evil-motion-state-map (kbd "C-p") 'helm-projectile-switch-project)
+  (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
 #+END_SRC
 
 ** Auto Complete

@@ -10,6 +10,7 @@
 
 ;;; Code:
 (package-initialize)
+(set-default-font "Menlo")
 
 ;; (require 'cask "~/.cask/cask.el")
 ;; This works only for home brew versions!!!
@@ -51,7 +52,7 @@
  '(haskell-tags-on-save t)
  '(package-selected-packages
    (quote
-    (bash-completion psc-ide psci purescript-mode helm-css-scss perspective which-key evil-org org-evil hindent robe multiple-cursors ob-restclient restclient nyan-mode)))
+    (caml shm idris-mode bash-completion psc-ide psci purescript-mode helm-css-scss perspective which-key evil-org org-evil hindent robe multiple-cursors ob-restclient restclient nyan-mode)))
  '(purescript-mode-hook (quote (turn-on-purescript-indent)) t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
