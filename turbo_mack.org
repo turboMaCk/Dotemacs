@@ -818,8 +818,6 @@ By default re-indenting blocks in evil is kind of nightmare. This will fix it:
   (define-key evil-visual-state-map (kbd "<") 'turbo_mack/evil-shift-left-visual)
   (define-key evil-visual-state-map [tab] 'turbo_mack/evil-shift-right-visual)
   (define-key evil-visual-state-map [S-tab] 'turbo_mack/evil-shift-left-visual)
-
-  (define-key evil-normal-state-map (kbd "C-c C-c") 'compile)
 #+END_SRC
 
 * Helm & Projectile
