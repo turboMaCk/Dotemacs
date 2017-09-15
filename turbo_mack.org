@@ -50,7 +50,9 @@ Disable dummy parts of GUI like scroll-bars.
   (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (when (fboundp 'menu-bar-mode)
     (if (display-graphic-p)
-        (menu-bar-mode t)
+        (if (memq window-system '(mac ns))
+            (menu-bar-mode t)
+            (menu-bar-mode -1))
       (menu-bar-mode -1)))
 #+END_SRC
 
@@ -77,6 +79,7 @@ Setup fringes (spaces around windows).
 
   (setq-default truncate-lines t)
   (setq line-spacing 3)
+  (set-face-attribute 'default nil :height 100)
 #+END_SRC
 
 Setup garbage collection to gain some extra performance.
@@ -777,11 +780,11 @@ Other useful evil extensions:
 
 I'm using Tmux a lot in terminal. Historically my workflow was heavily based on vim running with tmux and sometimes
 I tend do some operation that way even though mainly I'm tying to stay within Emacs.
-Anyway smooth integration with Tmux is still important to me. ~NAvigate~ package will do the trick.
+Anyway smooth integration with Tmux is still important to me. ~Navigate~ package will do the trick.
 
 #+BEGIN_SRC emacs-lisp
   ;; This package doesn't need to be init manually.
-  (require 'navigate)
+  ;;(require 'navigate)
 #+END_SRC
 
 This is to set some interface reflections of evil state.

@@ -10,11 +10,11 @@
 
 ;;; Code:
 (package-initialize)
-(set-default-font "Menlo")
+;(set-default-font "Menlo")
 
 ;; (require 'cask "~/.cask/cask.el")
 ;; This works only for home brew versions!!!
-(require 'cask "/usr/local/share/emacs/site-lisp/cask/cask.el")
+(require 'cask "/home/marek/.cask/cask.el")
 (cask-initialize)
 
 ;; Custom loads

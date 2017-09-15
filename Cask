@@ -1,6 +1,8 @@
 (source "gnu" "http://elpa.gnu.org/packages/")
-(source "marmalade" "http://marmalade-repo.org/packages/")
 (source "melpa" "http://melpa.milkbox.net/packages/")
+
+(depends-on "graphene" "20141030.219")
+(depends-on "pallet" :git "https://githib.com/rdallasgray/pallet" :ref "master")
 
 (depends-on "ac-etags")
 (depends-on "auto-complete")
@@ -38,7 +40,6 @@
 (depends-on "magit")
 (depends-on "markdown-mode+")
 (depends-on "multiple-cursors")
-(depends-on "navigate")
 (depends-on "nodejs-repl")
 (depends-on "npm-mode")
 (depends-on "nvm")
