@@ -753,6 +753,7 @@ Emacs way of doing things by default rather then bending every key map I can.
     (evil-mode t)
     (setq evil-search-module 'evil-search)
     (setq evil-magic 'very-magic))
+    (setq evil-want-C-u-scroll t)
 
   (turbo_mack/init-evil)
 
