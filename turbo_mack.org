@@ -281,9 +281,8 @@ Stay sane please
 This loads my customized version of twilight theme.
 
 #+BEGIN_SRC emacs-lisp
-  (load
-       (expand-file-name "theme/twilight.el"
-                  user-emacs-directory))
+    (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+    (load-theme 'fogus t)
 #+END_SRC
 
 Making sense of love to all the sweet things on internet.
