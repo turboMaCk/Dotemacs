@@ -281,9 +281,12 @@ Stay sane please
 This loads my customized version of twilight theme.
 
 #+BEGIN_SRC emacs-lisp
-    (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-    (load-theme 'fogus t)
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+  (load-theme 'fogus t)
+  (set-face-background 'hl-line "#222222")
 #+END_SRC
+
+#+RESULTS:
 
 Making sense of love to all the sweet things on internet.
 
