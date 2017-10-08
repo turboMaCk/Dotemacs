@@ -23,7 +23,7 @@ This is to setup user. *This is probably first think you want to change in your 
         user-mail-address "marek.faj@gmail.com")
 #+END_SRC
 
-* COMMENT Tramp model
+* Tramp model
 
 I'm using tramp-mode mainly to access remote machines via ssh.
 
@@ -32,6 +32,12 @@ I'm using tramp-mode mainly to access remote machines via ssh.
 #+END_SRC
 
 * Core configuration
+
+Setup environment and exec path. This is using ~exec-path-from-shell~ package.
+
+#+BEGIN_SRC emacs-lisp
+    (exec-path-from-shell-initialize)
+#+END_SRC
 
 These are one of the most important settings for Emacs' core and GUI.
 
@@ -50,7 +56,9 @@ Disable dummy parts of GUI like scroll-bars.
   (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (when (fboundp 'menu-bar-mode)
     (if (display-graphic-p)
-        (menu-bar-mode t)
+        (if (memq window-system '(mac ns))
+            (menu-bar-mode t)
+            (menu-bar-mode -1))
       (menu-bar-mode -1)))
 #+END_SRC
 
@@ -77,6 +85,7 @@ Setup fringes (spaces around windows).
 
   (setq-default truncate-lines t)
   (setq line-spacing 3)
+  (set-face-attribute 'default nil :height 90)
 #+END_SRC
 
 Setup garbage collection to gain some extra performance.
@@ -272,10 +281,12 @@ Stay sane please
 This loads my customized version of twilight theme.
 
 #+BEGIN_SRC emacs-lisp
-  (load
-       (expand-file-name "theme/twilight.el"
-                  user-emacs-directory))
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+  (load-theme 'fogus t)
+  (set-face-background 'hl-line "#222222")
 #+END_SRC
+
+#+RESULTS:
 
 Making sense of love to all the sweet things on internet.
 
@@ -476,9 +487,10 @@ npm install -g elm
 
   (defun turbo_mack/init-elm ()
     (elm-tags-on-save t)
-    (elm-format-on-save t))
+    (elm-format-on-save t)
+  )
 
-  (add-hook 'elm-mode-hook #'turbo_mack/init-elm)
+  (add-hook 'elm-mode-hook 'turbo_mack/init-elm)
 #+END_SRC
 
 ** Haskell
@@ -743,6 +755,7 @@ Emacs way of doing things by default rather then bending every key map I can.
     (evil-mode t)
     (setq evil-search-module 'evil-search)
     (setq evil-magic 'very-magic))
+    (setq evil-want-C-u-scroll t)
 
   (turbo_mack/init-evil)
 
@@ -777,11 +790,11 @@ Other useful evil extensions:
 
 I'm using Tmux a lot in terminal. Historically my workflow was heavily based on vim running with tmux and sometimes
 I tend do some operation that way even though mainly I'm tying to stay within Emacs.
-Anyway smooth integration with Tmux is still important to me. ~NAvigate~ package will do the trick.
+Anyway smooth integration with Tmux is still important to me. ~Navigate~ package will do the trick.
 
 #+BEGIN_SRC emacs-lisp
   ;; This package doesn't need to be init manually.
-  (require 'navigate)
+  ;;(require 'navigate)
 #+END_SRC
 
 This is to set some interface reflections of evil state.
@@ -1118,13 +1131,6 @@ All OS specific settings should go here.
 
 ** Macintosh
 
-Setup environment and exec path. This is using ~exec-path-from-shell~ package.
-
-#+BEGIN_SRC emacs-lisp
-  (when (memq window-system '(mac ns))
-    (exec-path-from-shell-initialize))
-#+END_SRC
-
 Clipboard mode depend on ~pbcopy~ binary.
 
 > There is some weird race condition in ~osx-clip-board-mode~ initialization.
@@ -1133,7 +1139,6 @@ Attempting to enable this mode an a non-OS-X system or in a graphical Emacs will
 so it should be safe to enable it unconditionally even if you share your configuration between multiple machines.
 
 #+BEGIN_SRC emacs-lisp
-
   (when (fboundp 'osx-clip-board-mode)
             (osx-clip-board-mode t))
 #+END_SRC
@@ -1142,4 +1147,14 @@ Command same as ctrl
 
 #+BEGIN_SRC emacs-lisp
   (setq mac-command-modifier 'C)
+#+END_SRC
+
+** Linux
+
+On linux magit needs to know pid of SSH agent otherwise it prompts for passphrase constantly.
+
+#+BEGIN_SRC emacs-lisp
+(when window-system
+    (exec-path-from-shell-copy-env "SSH_AGENT_PID")
+    (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
 #+END_SRC
